@@ -1,0 +1,18 @@
+import { NextResponse } from "next/server";
+
+export async function GET() {
+  try {
+    const response = await fetch(
+      `https://gnews.io/api/v4/search?q=geopolitics OR india OR myanmar OR china&lang=en&max=6&apikey=${process.env.GNEWS_API_KEY}`
+    );
+
+    const data = await response.json();
+
+    return NextResponse.json(data);
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Failed to fetch news" },
+      { status: 500 }
+    );
+  }
+}
