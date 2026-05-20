@@ -1,5 +1,3 @@
-"use client";
-
 type MapTarget = {
   name: string;
   lat: number;

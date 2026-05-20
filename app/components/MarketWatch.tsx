@@ -1,6 +1,3 @@
-```tsx
-"use client";
-
 const markets = [
   {
     name: "Bitcoin",
@@ -86,4 +83,3 @@ export default function MarketWatch() {
     </div>
   );
 }
-```
