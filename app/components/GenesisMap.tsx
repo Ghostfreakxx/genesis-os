@@ -1,7 +1,7 @@
 "use client";
 
 import "leaflet/dist/leaflet.css";
-import { MapContainer, TileLayer, Marker, Popup, CircleMarker } from "react-leaflet";
+import * as ReactLeaflet from "react-leaflet";
 
 type MapTarget = {
   name: string;
@@ -10,8 +10,14 @@ type MapTarget = {
   threat: string;
 };
 
+const MapContainer: any = ReactLeaflet.MapContainer;
+const TileLayer: any = ReactLeaflet.TileLayer;
+const Marker: any = ReactLeaflet.Marker;
+const Popup: any = ReactLeaflet.Popup;
+const CircleMarker: any = ReactLeaflet.CircleMarker;
+
 export default function GenesisMap({ target }: { target: MapTarget }) {
-  const position: any = [target.lat, target.lng];
+  const position = [target.lat, target.lng];
 
   return (
     <div className="h-[320px] rounded-2xl overflow-hidden border border-cyan-400">
@@ -46,18 +52,19 @@ export default function GenesisMap({ target }: { target: MapTarget }) {
           }
         />
 
-        <Marker position={[23.7271, 92.7176] as any}>
+        <Marker position={[23.7271, 92.7176]}>
           <Popup>Aizawl Monitoring Node</Popup>
         </Marker>
 
-        <Marker position={[24.817, 93.9368] as any}>
+        <Marker position={[24.817, 93.9368]}>
           <Popup>Manipur Conflict Zone</Popup>
         </Marker>
 
-        <Marker position={[25.5788, 91.8933] as any}>
+        <Marker position={[25.5788, 91.8933]}>
           <Popup>Shillong Intelligence Point</Popup>
         </Marker>
       </MapContainer>
     </div>
   );
+}
 }
