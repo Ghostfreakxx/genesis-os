@@ -8,17 +8,54 @@ type MapTarget = {
 };
 
 export default function GenesisMap({ target }: { target: MapTarget }) {
+  const threatColor =
+    target.threat === "High"
+      ? "text-red-400 border-red-500"
+      : target.threat === "Medium"
+      ? "text-yellow-300 border-yellow-400"
+      : "text-cyan-300 border-cyan-400";
+
   return (
-    <div className="h-[320px] rounded-2xl overflow-hidden border border-cyan-400 bg-black relative flex items-center justify-center">
-      <div className="w-64 h-64 rounded-full border-2 border-cyan-400 bg-[radial-gradient(circle,#064b6b_0%,#02111d_60%,#000_100%)] shadow-[0_0_50px_#00ffff88] relative">
-        <div className="absolute left-[48%] top-[50%] w-4 h-4 rounded-full bg-red-500 shadow-[0_0_20px_red]" />
-        <div className="absolute left-[55%] top-[45%] w-4 h-4 rounded-full bg-yellow-400 shadow-[0_0_20px_yellow]" />
-        <div className="absolute left-[42%] top-[58%] w-4 h-4 rounded-full bg-cyan-400 shadow-[0_0_20px_cyan]" />
+    <div className="border border-cyan-400 rounded-2xl p-5 bg-[#080808] min-h-[320px]">
+      <h2 className="text-3xl font-bold text-cyan-300 mb-4">
+        Intelligence Focus
+      </h2>
+
+      <div className={`border rounded-2xl p-5 ${threatColor}`}>
+        <p className="text-sm text-zinc-400">Current Signal Zone</p>
+
+        <h3 className="text-4xl font-bold mt-2">
+          {target.name}
+        </h3>
+
+        <p className="mt-3 text-xl">
+          Threat Level: {target.threat}
+        </p>
       </div>
 
-      <div className="absolute bottom-4 left-4 bg-black/80 border border-cyan-400 rounded-xl p-3">
-        <p className="text-cyan-300 font-bold">{target.name}</p>
-        <p className="text-zinc-400 text-sm">Threat: {target.threat}</p>
+      <div className="grid grid-cols-3 gap-3 mt-5">
+        <div className="border border-cyan-700 rounded-xl p-3 bg-black">
+          <p className="text-xs text-zinc-500">LAT</p>
+          <p className="font-bold">{target.lat}</p>
+        </div>
+
+        <div className="border border-cyan-700 rounded-xl p-3 bg-black">
+          <p className="text-xs text-zinc-500">LNG</p>
+          <p className="font-bold">{target.lng}</p>
+        </div>
+
+        <div className="border border-cyan-700 rounded-xl p-3 bg-black">
+          <p className="text-xs text-zinc-500">MODE</p>
+          <p className="font-bold">OSINT</p>
+        </div>
+      </div>
+
+      <div className="mt-5 border border-green-500 rounded-2xl p-4 bg-black font-mono">
+        <p className="text-green-400">&gt; signal zone loaded</p>
+        <p className="text-green-400">&gt; public source scan active</p>
+        <p className="text-cyan-400 animate-pulse">
+          &gt; Genesis analysis engine online...
+        </p>
       </div>
     </div>
   );
