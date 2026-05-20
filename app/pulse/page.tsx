@@ -1,306 +1,204 @@
-"use client"; 
-import { useEffect, useState } from "react";
+"use client";
 
-type Article = {
-  title: string;
-  description: string;
-  url: string;
-  image?: string;
-  source?: string;
-};
+import { useState } from "react";
+import MarketWatch from "./components/MarketWatch";
 
-const presets = [
+const topics = [
   {
-    name: "India",
-    risk: 52,
-    color: "#00ff99",
+    label: "Northeast India",
+    threat: "Medium",
+    title: "Northeast India Watch",
+    summary:
+      "Focus on Mizoram, Manipur, Assam, border security, ethnic tension, migration, and regional development.",
+    critic:
+      "Most aspirants ignore Northeast geopolitics until exam season. That is why their answers sound empty.",
+    search: "Northeast India geopolitics Mizoram Manipur Assam",
   },
   {
-    name: "Myanmar",
-    risk: 78,
-    color: "#ffaa00",
+    label: "India Myanmar Border",
+    threat: "High",
+    title: "India Myanmar Border Watch",
+    summary:
+      "Tracks conflict spillover, refugees, smuggling, border fencing, ethnic armed groups, and security pressure.",
+    critic:
+      "The border is not just a line on a map. It is where weak policy becomes visible.",
+    search: "India Myanmar border conflict Mizoram Manipur",
   },
   {
-    name: "China",
-    risk: 82,
-    color: "#ff4444",
+    label: "China Taiwan",
+    threat: "High",
+    title: "China Taiwan Flashpoint",
+    summary:
+      "Tracks Indo Pacific tension, military drills, semiconductor risks, US China rivalry, and maritime pressure.",
+    critic:
+      "People call it far away until chips, markets, and war anxiety hit their pocket.",
+    search: "China Taiwan conflict Indo Pacific",
   },
   {
-    name: "Taiwan",
-    risk: 74,
-    color: "#00ccff",
+    label: "Cybersecurity",
+    threat: "Medium",
+    title: "Cybersecurity Watch",
+    summary:
+      "Tracks scams, phishing, cyber fraud, data leaks, AI threats, and digital hygiene problems.",
+    critic:
+      "The average scam works not because hackers are geniuses, but because users are careless.",
+    search: "India cybersecurity scam fraud phishing",
   },
   {
-    name: "Russia",
-    risk: 86,
-    color: "#ff2222",
+    label: "Global Conflict",
+    threat: "High",
+    title: "Global Conflict Monitor",
+    summary:
+      "Tracks wars, sanctions, oil pressure, refugee flows, military alliances, and market fear.",
+    critic:
+      "Global politics is usually rich men gambling with poor men’s lives.",
+    search: "global conflict war geopolitics today",
   },
 ];
 
-function generateAnalysis(country: string) {
-  return `${country} remains under geopolitical observation. 
-Power struggles, economic pressure, cyber risks, border tension, and media narratives continue shaping the country's strategic position. 
-Modern geopolitics is no longer just tanks and borders. 
-It is information warfare, economics, cyber pressure, and public influence fighting at the same time. 
-Everyone talks about peace until resources, trade routes, and power are involved.`;
-}
-
-export default function PulsePage() {
-  const [selected, setSelected] = useState("India");
-  const [time, setTime] = useState("");
-  const [news, setNews] = useState<Article[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [search, setSearch] = useState("");
-
-  const preset =
-    presets.find((p) => p.name === selected) || {
-      name: selected,
-      risk: Math.floor(Math.random() * 40) + 40,
-      color: "#00ccff",
-    };
-
-  useEffect(() => {
-    setTime(new Date().toLocaleTimeString());
-
-    const clock = setInterval(() => {
-      setTime(new Date().toLocaleTimeString());
-    }, 1000);
-
-    return () => clearInterval(clock);
-  }, []);
-
-  useEffect(() => {
-    async function fetchNews() {
-      setLoading(true);
-
-      try {
-        const response = await fetch(
-          `/api/news?topic=${encodeURIComponent(selected)}`
-        );
-
-        const data = await response.json();
-
-        setNews((data.articles || []).slice(0, 4));
-      } catch (error) {
-        console.log(error);
-      }
-
-      setLoading(false);
-    }
-
-    fetchNews();
-  }, [selected]);
+export default function HomePage() {
+  const [active, setActive] = useState(topics[1]);
 
   return (
-    <main className="min-h-screen bg-black text-cyan-300 p-4">
-      <div className="max-w-5xl mx-auto">
-
-        <div className="border border-cyan-400 rounded-2xl p-5 bg-zinc-950 mb-5">
+    <main className="min-h-screen bg-[#050505] text-white p-4 md:p-6">
+      <div className="max-w-7xl mx-auto">
+        <header className="border border-cyan-400 rounded-2xl p-5 bg-[#0a0a0a] mb-6">
           <h1 className="text-4xl md:text-6xl font-bold text-cyan-300">
-            GENESIS PULSE
+            GENESIS
           </h1>
-
           <p className="text-zinc-400 mt-2">
-            Public geopolitical watch dashboard
+            Geopolitical Intelligence System for Mizoram aspirants.
           </p>
-
-          <p className="text-green-400 mt-2">
-            Live: {time}
+          <p className="text-cyan-500 text-sm mt-1">
+            Pathian leh Mizoram tan
           </p>
+        </header>
 
-          <a href="/" className="text-sm underline text-cyan-500">
-            Back to Genesis OS
-          </a>
-        </div>
-
-        <div className="border border-cyan-500 rounded-2xl p-5 bg-zinc-950 mb-5">
-          <h2 className="text-2xl font-bold mb-4">
-            Search Country / Region
-          </h2>
-
-          <div className="flex gap-3">
-            <input
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search any country..."
-              className="flex-1 bg-black border border-cyan-500 rounded-xl p-3 text-cyan-300"
-            />
-
-            <button
-              onClick={() => {
-                if (search.trim()) {
-                  setSelected(search.trim());
-                }
-              }}
-              className="bg-cyan-500 text-black px-5 rounded-xl font-bold"
-            >
-              Scan
-            </button>
+        <section className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+          <div className="border border-cyan-400 rounded-2xl p-5 bg-[#0a0a0a]">
+            <p className="text-cyan-300 text-sm">Current Zone</p>
+            <h2 className="text-3xl font-bold mt-2">{active.label}</h2>
+            <p className="text-zinc-400 mt-2">Regional feed active</p>
           </div>
-        </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-5">
-          {presets.map((country) => (
-            <button
-              key={country.name}
-              onClick={() => setSelected(country.name)}
-              className="rounded-xl p-4 border text-left bg-zinc-950"
-              style={{
-                borderColor: country.color,
-                color: country.color,
-              }}
-            >
-              <p className="font-bold">{country.name}</p>
-              <p className="text-xs text-zinc-400">
-                Quick Signal
-              </p>
-            </button>
-          ))}
-        </div>
+          <div className="border border-red-400 rounded-2xl p-5 bg-[#0a0a0a]">
+            <p className="text-red-300 text-sm">Threat Level</p>
+            <h2 className="text-3xl font-bold text-red-300 mt-2">
+              {active.threat}
+            </h2>
+            <p className="text-zinc-400 mt-2">Public signal detected</p>
+          </div>
 
-        <div
-          className="border rounded-2xl p-5 bg-zinc-950 mb-5"
-          style={{ borderColor: preset.color }}
-        >
-          <p className="text-zinc-400">
-            Selected Region
-          </p>
+          <div className="border border-green-400 rounded-2xl p-5 bg-[#0a0a0a]">
+            <p className="text-green-300 text-sm">Study Mode</p>
+            <h2 className="text-3xl font-bold text-green-300 mt-2">ON</h2>
+            <p className="text-zinc-400 mt-2">Aspirant friendly</p>
+          </div>
 
-          <h2
-            className="text-5xl font-bold mt-2"
-            style={{ color: preset.color }}
-          >
-            {selected}
-          </h2>
+          <div className="border border-yellow-400 rounded-2xl p-5 bg-[#0a0a0a]">
+            <p className="text-yellow-300 text-sm">Market Signal</p>
+            <h2 className="text-3xl font-bold text-yellow-300 mt-2">Watch</h2>
+            <p className="text-zinc-400 mt-2">Crypto, gold, oil, dollar</p>
+          </div>
+        </section>
 
-          <div className="mt-5">
-            <p className="text-zinc-400 mb-2">
-              AI Risk Score
+        <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 border border-cyan-400 rounded-2xl p-5 bg-[#0a0a0a]">
+            <h2 className="text-3xl md:text-4xl font-bold text-cyan-300">
+              Live Geopolitical Feed
+            </h2>
+
+            <p className="text-sm text-cyan-500 mt-1 mb-5">
+              Current topic: {active.label}
             </p>
 
-            <p
-              className="text-6xl font-bold"
-              style={{ color: preset.color }}
-            >
-              {preset.risk}
-            </p>
-
-            <div className="w-full h-3 bg-zinc-800 rounded-full mt-3">
-              <div
-                className="h-3 rounded-full"
-                style={{
-                  width: `${preset.risk}%`,
-                  background: preset.color,
-                }}
+            <div className="border border-zinc-700 rounded-2xl overflow-hidden bg-black">
+              <img
+                src={`https://source.unsplash.com/1200x600/?${encodeURIComponent(
+                  active.search
+                )}`}
+                alt={active.label}
+                className="w-full h-[220px] md:h-[320px] object-cover"
               />
+
+              <div className="p-5">
+                <h3 className="text-2xl md:text-3xl font-bold text-cyan-200">
+                  {active.title}
+                </h3>
+
+                <p className="text-zinc-300 mt-3 leading-7">
+                  {active.summary}
+                </p>
+
+                <div className="mt-5 border border-red-500 rounded-xl p-4 bg-[#050505]">
+                  <p className="text-red-400 font-bold">Brutal AI Read</p>
+                  <p className="text-zinc-300 mt-2 leading-7">
+                    {active.critic}
+                  </p>
+                </div>
+
+                <a
+                  href={`https://news.google.com/search?q=${encodeURIComponent(
+                    active.search
+                  )}`}
+                  target="_blank"
+                  className="inline-block mt-5 text-green-400 underline"
+                >
+                  Open live news search →
+                </a>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="border border-purple-500 rounded-2xl p-5 bg-zinc-950 mb-5">
-          <h2 className="text-2xl font-bold text-purple-400">
-            Genesis Brutal Analysis
-          </h2>
-
-          <p className="mt-3 text-zinc-300 leading-7 whitespace-pre-line">
-            {generateAnalysis(selected)}
-          </p>
-        </div>
-
-        <div className="border border-cyan-500 rounded-2xl p-5 bg-zinc-950 mb-5">
-
-          <div className="flex justify-between items-center">
-            <div>
-              <h2 className="text-2xl font-bold">
-                Live Signal Feed
+          <div className="space-y-6">
+            <div className="border border-purple-400 rounded-2xl p-5 bg-[#0a0a0a]">
+              <h2 className="text-3xl font-bold text-purple-300">
+                World Signal
               </h2>
 
-              <p className="text-zinc-400 mt-1">
-                News and media related to {selected}
+              <p className="text-zinc-400 mt-2 leading-7">
+                Select a command below. Genesis will shift the public news focus
+                for aspirants, researchers, and Mizoram-based observers.
               </p>
+
+              <div className="mt-5 border border-cyan-500 rounded-xl p-4 bg-black">
+                <p className="text-cyan-300 font-bold">{active.label}</p>
+                <p className="text-zinc-400 mt-1">Threat: {active.threat}</p>
+              </div>
             </div>
 
-            {loading && (
-              <p className="text-green-400 animate-pulse text-sm">
-                updating...
-              </p>
-            )}
-          </div>
+            <div className="border border-green-400 rounded-2xl p-5 bg-[#0a0a0a]">
+              <h2 className="text-3xl font-bold text-green-300 mb-4">
+                Command Console
+              </h2>
 
-          <div className="grid md:grid-cols-2 gap-4 mt-5">
-            {news.map((article, index) => (
-              <div
-                key={index}
-                className="border border-zinc-700 rounded-2xl overflow-hidden bg-black"
-              >
-                {article.image && (
-                  <img
-                    src={article.image}
-                    alt="news"
-                    className="w-full h-48 object-cover"
-                  />
-                )}
-
-                <div className="p-4">
-                  <h3 className="text-xl font-bold text-cyan-300">
-                    {article.title}
-                  </h3>
-
-                  <p className="text-xs text-zinc-500 mt-1">
-                    Source: {article.source || "Unknown"}
-                  </p>
-
-                  <p className="text-sm text-zinc-300 mt-3">
-                    {article.description}
-                  </p>
-
-                  <a
-                    href={article.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block mt-3 text-cyan-400 underline"
+              <div className="space-y-3">
+                {topics.map((topic) => (
+                  <button
+                    key={topic.label}
+                    onClick={() => setActive(topic)}
+                    className={`w-full text-left border rounded-lg px-4 py-3 transition ${
+                      active.label === topic.label
+                        ? "border-cyan-400 text-cyan-300 bg-cyan-950/30"
+                        : "border-green-500 text-green-300 bg-black"
+                    }`}
                   >
-                    Watch / Read source →
-                  </a>
-                </div>
+                    {">"} {topic.label}
+                  </button>
+                ))}
               </div>
-            ))}
+
+              <p className="text-green-400 mt-5 animate-pulse">
+                {">"} Command active: {active.label}
+              </p>
+            </div>
           </div>
+        </section>
+
+        <div className="mt-8">
+          <MarketWatch />
         </div>
-
-   <div className="border border-green-500 rounded-2xl p-5 bg-zinc-950 font-mono mb-10">
-  <h2 className="text-2xl font-bold text-green-400">
-    Signal Console
-  </h2>
-
-  <p className="mt-3 text-green-400">
-    &gt; selected region: {selected}
-  </p>
-
-  <p className="text-green-400">
-    &gt; AI risk score: {preset.risk}
-  </p>
-
-  <p className="text-green-400">
-    &gt; scanning public geopolitical signals
-  </p>
-
-  <p className="text-cyan-400 animate-pulse">
-    &gt; Genesis Pulse online...
-  </p>
-</div>
-
-<div className="text-center mt-10 mb-4">
-  <p className="text-zinc-500 text-sm italic">
-    Pathian leh Mizoram tan
-  </p>
-
-  <p className="text-zinc-700 text-xs mt-1">
-    For God and Mizoram
-  </p>
-</div>
-
-</div>
-</main>     
- );
+      </div>
+    </main>
+  );
 }
