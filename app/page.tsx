@@ -60,7 +60,7 @@ export default function HomePage() {
           </h1>
 
           <p className="text-zinc-400 mt-2">
-            Late night operations online, Ghost.
+            Monitoring global signals.
           </p>
 
           <p className="text-sm text-cyan-500 mt-1">
