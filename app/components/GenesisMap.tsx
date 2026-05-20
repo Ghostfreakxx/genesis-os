@@ -22,7 +22,7 @@ function FlyToLocation({ target }: { target: MapTarget }) {
   const map = useMap();
 
   useEffect(() => {
-    map.flyTo([target.lat, target.lng], 7, {
+    map.flyTo([target.lat, target.lng] as [number, number], 7, {
       duration: 1.5,
     });
   }, [target, map]);
@@ -34,7 +34,7 @@ export default function GenesisMap({ target }: { target: MapTarget }) {
   return (
     <div className="h-[320px] rounded-2xl overflow-hidden border border-cyan-400">
       <MapContainer
-        center={[target.lat, target.lng]}
+        center={[target.lat, target.lng] as [number, number]}
         zoom={7}
         scrollWheelZoom={false}
         className="h-full w-full"
@@ -46,7 +46,7 @@ export default function GenesisMap({ target }: { target: MapTarget }) {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        <Marker position={[target.lat, target.lng]}>
+        <Marker position={[target.lat, target.lng] as [number, number]}>
           <Popup>
             <strong>{target.name}</strong>
             <br />
@@ -55,7 +55,7 @@ export default function GenesisMap({ target }: { target: MapTarget }) {
         </Marker>
 
         <CircleMarker
-          center={[target.lat, target.lng]}
+          center={[target.lat, target.lng] as [number, number]}
           radius={18}
           color={
             target.threat === "High"
@@ -68,15 +68,15 @@ export default function GenesisMap({ target }: { target: MapTarget }) {
           <Popup>{target.name} Signal Zone</Popup>
         </CircleMarker>
 
-        <Marker position={[23.7271, 92.7176]}>
+        <Marker position={[23.7271, 92.7176] as [number, number]}>
           <Popup>Aizawl Monitoring Node</Popup>
         </Marker>
 
-        <Marker position={[24.817, 93.9368]}>
+        <Marker position={[24.817, 93.9368] as [number, number]}>
           <Popup>Manipur Conflict Zone</Popup>
         </Marker>
 
-        <Marker position={[25.5788, 91.8933]}>
+        <Marker position={[25.5788, 91.8933] as [number, number]}>
           <Popup>Shillong Intelligence Point</Popup>
         </Marker>
       </MapContainer>
