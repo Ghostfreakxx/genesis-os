@@ -1,15 +1,7 @@
 "use client";
 
 import "leaflet/dist/leaflet.css";
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  CircleMarker,
-  useMap,
-} from "react-leaflet";
-import { useEffect } from "react";
+import { MapContainer, TileLayer, Marker, Popup, CircleMarker } from "react-leaflet";
 
 type MapTarget = {
   name: string;
@@ -18,35 +10,23 @@ type MapTarget = {
   threat: string;
 };
 
-function FlyToLocation({ target }: { target: MapTarget }) {
-  const map = useMap();
-
-  useEffect(() => {
-    map.flyTo([target.lat, target.lng] as [number, number], 7, {
-      duration: 1.5,
-    });
-  }, [target, map]);
-
-  return null;
-}
-
 export default function GenesisMap({ target }: { target: MapTarget }) {
+  const position: any = [target.lat, target.lng];
+
   return (
     <div className="h-[320px] rounded-2xl overflow-hidden border border-cyan-400">
       <MapContainer
-        center={[target.lat, target.lng] as [number, number]}
+        center={position}
         zoom={7}
         scrollWheelZoom={false}
         className="h-full w-full"
       >
-        <FlyToLocation target={target} />
-
         <TileLayer
           attribution="&copy; OpenStreetMap"
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        <Marker position={[target.lat, target.lng] as [number, number]}>
+        <Marker position={position}>
           <Popup>
             <strong>{target.name}</strong>
             <br />
@@ -55,7 +35,7 @@ export default function GenesisMap({ target }: { target: MapTarget }) {
         </Marker>
 
         <CircleMarker
-          center={[target.lat, target.lng] as [number, number]}
+          center={position}
           radius={18}
           color={
             target.threat === "High"
@@ -64,19 +44,17 @@ export default function GenesisMap({ target }: { target: MapTarget }) {
               ? "yellow"
               : "cyan"
           }
-        >
-          <Popup>{target.name} Signal Zone</Popup>
-        </CircleMarker>
+        />
 
-        <Marker position={[23.7271, 92.7176] as [number, number]}>
+        <Marker position={[23.7271, 92.7176] as any}>
           <Popup>Aizawl Monitoring Node</Popup>
         </Marker>
 
-        <Marker position={[24.817, 93.9368] as [number, number]}>
+        <Marker position={[24.817, 93.9368] as any}>
           <Popup>Manipur Conflict Zone</Popup>
         </Marker>
 
-        <Marker position={[25.5788, 91.8933] as [number, number]}>
+        <Marker position={[25.5788, 91.8933] as any}>
           <Popup>Shillong Intelligence Point</Popup>
         </Marker>
       </MapContainer>
