@@ -8,51 +8,40 @@ type MapTarget = {
 };
 
 export default function GenesisMap({ target }: { target: MapTarget }) {
-  const threatColor =
-    target.threat === "High"
-      ? "text-red-400 border-red-500"
-      : target.threat === "Medium"
-      ? "text-yellow-300 border-yellow-400"
-      : "text-cyan-300 border-cyan-400";
-
   return (
     <div className="border border-cyan-400 rounded-2xl p-5 bg-[#080808] min-h-[320px]">
       <h2 className="text-3xl font-bold text-cyan-300 mb-4">
-        Intelligence Focus
+        Intelligence Summary
       </h2>
 
-      <div className={`border rounded-2xl p-5 ${threatColor}`}>
-        <p className="text-sm text-zinc-400">Current Signal Zone</p>
+      <div className="border border-purple-500 rounded-2xl p-4 bg-black">
+        <p className="text-purple-400 font-bold">Current Focus</p>
 
-        <h3 className="text-4xl font-bold mt-2">
+        <h3 className="text-3xl font-bold text-cyan-300 mt-2">
           {target.name}
         </h3>
 
-        <p className="mt-3 text-xl">
-          Threat Level: {target.threat}
+        <p className="text-zinc-300 mt-3 leading-7">
+          Genesis is scanning public news sources for geopolitical, border,
+          cyber, and regional security signals. This is public OSINT style
+          monitoring, not personal tracking.
         </p>
       </div>
 
-      <div className="grid grid-cols-3 gap-3 mt-5">
-        <div className="border border-cyan-700 rounded-xl p-3 bg-black">
-          <p className="text-xs text-zinc-500">LAT</p>
-          <p className="font-bold">{target.lat}</p>
-        </div>
+      <div className="mt-4 border border-red-500 rounded-2xl p-4 bg-black">
+        <p className="text-red-400 font-bold">Brutal Read</p>
 
-        <div className="border border-cyan-700 rounded-xl p-3 bg-black">
-          <p className="text-xs text-zinc-500">LNG</p>
-          <p className="font-bold">{target.lng}</p>
-        </div>
-
-        <div className="border border-cyan-700 rounded-xl p-3 bg-black">
-          <p className="text-xs text-zinc-500">MODE</p>
-          <p className="font-bold">OSINT</p>
-        </div>
+        <p className="text-zinc-300 mt-2 leading-7">
+          Geopolitics is usually not mysterious. It is bad leadership, weak
+          institutions, economic pressure, border problems, and powerful people
+          acting shocked when their decisions create chaos.
+        </p>
       </div>
 
-      <div className="mt-5 border border-green-500 rounded-2xl p-4 bg-black font-mono">
+      <div className="mt-4 border border-green-500 rounded-2xl p-4 bg-black font-mono">
         <p className="text-green-400">&gt; signal zone loaded</p>
-        <p className="text-green-400">&gt; public source scan active</p>
+        <p className="text-green-400">&gt; zone: {target.name}</p>
+        <p className="text-green-400">&gt; threat: {target.threat}</p>
         <p className="text-cyan-400 animate-pulse">
           &gt; Genesis analysis engine online...
         </p>
