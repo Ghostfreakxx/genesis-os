@@ -136,7 +136,44 @@ export default function HomePage() {
 
             <div className="border border-cyan-400 rounded-2xl p-5 bg-[#0a0a0a]">
               <h2 className="text-4xl font-bold text-cyan-300 mb-4">
-                Intelligence Map
+                <div className="border border-purple-400 rounded-2xl p-5 bg-[#0a0a0a]">
+  <h2 className="text-3xl font-bold text-purple-300">
+    World Signal Feed
+  </h2>
+
+  <p className="text-zinc-400 mt-3 leading-7">
+    Select a command below. Genesis will shift the public news focus for
+    aspirants, researchers, and Mizoram-based observers.
+  </p>
+
+  <div className="mt-5 border border-cyan-500 rounded-xl p-4 bg-black">
+    <p className="text-cyan-300 font-bold">
+      {active.label}
+    </p>
+
+    <p className="text-zinc-400 mt-1">
+      Threat: {active.threat}
+    </p>
+
+    <p className="text-red-400 mt-4 font-bold">
+      Brutal AI Read
+    </p>
+
+    <p className="text-zinc-300 mt-2 leading-7">
+      {active.critic}
+    </p>
+
+    <a
+      href={`https://news.google.com/search?q=${encodeURIComponent(
+        active.search
+      )}`}
+      target="_blank"
+      className="inline-block mt-5 text-green-400 underline"
+    >
+      Open live news search →
+    </a>
+  </div>
+</div>
               </h2>
 
               <div className="rounded-2xl border border-cyan-500 h-[260px] flex items-center justify-center relative overflow-hidden bg-black">
