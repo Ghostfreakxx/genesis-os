@@ -1,5 +1,6 @@
 "use client";
 import LiveNewsFeed from "./components/livenewsfeed";
+import NewNEMap from "./components/NewNEMap";
 import MockTest from "./components/MockTest";
 import { useState } from "react";
 import MarketWatch from "./components/MarketWatch";
@@ -135,20 +136,24 @@ export default function HomePage() {
             >
               Open live news search →
             </a>
-
-            <div className="mt-10">
-              <MarketWatch />
-              <div className="mt-10">
+<div className="mt-10">
+  <NewNEMap />
+</div>
+<div className="mt-10">
+  <MarketWatch />
+</div>
+<div className="mt-10">
   <MockTest />
 </div>
             </div>
 
           </div>
 
-        </div>
+      
 
       </div>
 
     </main>
+
   );
 }
