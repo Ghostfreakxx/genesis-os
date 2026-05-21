@@ -8,7 +8,6 @@ type Article = {
   url: string;
   source?: string;
 };
-
 export default function LiveNewsFeed({ topic }: { topic: string }) {
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(false);

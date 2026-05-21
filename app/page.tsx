@@ -1,5 +1,5 @@
 "use client";
-import LiveNewsFeed from "./components/LiveNewsFeed";
+import LiveNewsFeed from "./components/livenewsfeed";
 import { useState } from "react";
 import MarketWatch from "./components/MarketWatch";
 import NpcCounter from "./components/NpcCounter";
