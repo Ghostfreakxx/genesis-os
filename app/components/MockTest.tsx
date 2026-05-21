@@ -1,96 +1,51 @@
 "use client";
 
 import { useState } from "react";
+import { questions } from "../data/questions";
 
-const questions = [
-  {
-    category: "Geopolitics",
-    question: "What does QUAD mainly focus on?",
-    options: [
-      "Indo-Pacific cooperation",
-      "European Union expansion",
-      "African Union reform",
-      "Middle East oil pricing",
-    ],
-    answer: "Indo-Pacific cooperation",
-  },
-  {
-    category: "Northeast India",
-    question: "India’s Act East Policy is most connected with which region?",
-    options: ["Europe", "Southeast Asia", "South America", "Central Asia"],
-    answer: "Southeast Asia",
-  },
-  {
-    category: "Mizoram / Border",
-    question: "Which country shares an international border with Mizoram?",
-    options: ["Nepal", "Myanmar", "Sri Lanka", "Pakistan"],
-    answer: "Myanmar",
-  },
-  {
-    category: "Cybersecurity",
-    question: "Which habit improves basic cyber hygiene?",
-    options: [
-      "Using the same password everywhere",
-      "Clicking unknown links",
-      "Using two-factor authentication",
-      "Sharing OTP with friends",
-    ],
-    answer: "Using two-factor authentication",
-  },
-  {
-    category: "Current Affairs",
-    question: "BRICS originally included Brazil, Russia, India, China and which country?",
-    options: ["South Africa", "Japan", "Germany", "Indonesia"],
-    answer: "South Africa",
-  },
-];
+function getRandomQuestions() {
+  return [...questions].sort(() => Math.random() - 0.5).slice(0, 5);
+}
 
 const failureLines = [
   "Critical academic damage detected.",
   "MPSC did not attack you. You attacked yourself.",
   "The Constitution fought harder than expected.",
-  "Your brain requested emergency leave.",
-  "Operator status: academically cooked but still alive.",
 ];
 
 const averageLines = [
   "You survived. Barely.",
   "Not bad. Not good. Very human.",
-  "MPSC noticed you, but did not fear you yet.",
-  "The system says: revise before becoming overconfident.",
+  "Revise before becoming overconfident.",
 ];
 
 const successLines = [
   "Operator promoted. MPSC fears your existence.",
   "Scholar mode activated.",
-  "The syllabus blinked first.",
   "High command approves this performance.",
 ];
 
 export default function MockTest() {
+  const [quizQuestions, setQuizQuestions] = useState(getRandomQuestions);
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
   const [selected, setSelected] = useState<string | null>(null);
   const [finished, setFinished] = useState(false);
 
-  const q = questions[current];
-
-  function pickLine(lines: string[]) {
-    return lines[Math.floor(Math.random() * lines.length)];
-  }
+  const currentQuestion = quizQuestions[current];
 
   function handleAnswer(option: string) {
     if (selected) return;
 
     setSelected(option);
 
-    if (option === q.answer) {
+    if (option === currentQuestion.answer) {
       setScore((prev) => prev + 1);
     }
   }
 
   function nextQuestion() {
-    if (current + 1 < questions.length) {
+    if (current + 1 < quizQuestions.length) {
       setCurrent((prev) => prev + 1);
       setSelected(null);
     } else {
@@ -98,76 +53,79 @@ export default function MockTest() {
     }
   }
 
-  function resetTest() {
+  function restartQuiz() {
+    setQuizQuestions(getRandomQuestions());
     setCurrent(0);
     setScore(0);
     setSelected(null);
     setFinished(false);
   }
 
-  function resultLine() {
-    const percentage = (score / questions.length) * 100;
-
-    if (percentage < 40) return pickLine(failureLines);
-    if (percentage < 80) return pickLine(averageLines);
-    return pickLine(successLines);
-  }
+  const resultLine =
+    score <= 2
+      ? failureLines[Math.floor(Math.random() * failureLines.length)]
+      : score <= 3
+      ? averageLines[Math.floor(Math.random() * averageLines.length)]
+      : successLines[Math.floor(Math.random() * successLines.length)];
 
   if (finished) {
     return (
-      <section className="mt-8 border border-green-400 rounded-2xl p-6 bg-black">
-        <p className="text-green-400 text-sm">GENESIS MOCK TERMINAL</p>
-
-        <h2 className="text-4xl font-bold text-cyan-300 mt-2">
-          Score: {score}/{questions.length}
-        </h2>
-
-        <p className="text-zinc-300 mt-4 text-lg">
-          {resultLine()}
+      <div className="rounded-2xl border border-green-400 bg-black/60 p-6">
+        <p className="text-sm font-bold text-green-400">
+          GENESIS MOCK TERMINAL
         </p>
 
+        <h2 className="mt-2 text-4xl font-bold text-cyan-300">
+          Score: {score}/{quizQuestions.length}
+        </h2>
+
+        <p className="mt-4 text-white font-semibold">{resultLine}</p>
+
         <button
-          onClick={resetTest}
-          className="mt-6 border border-cyan-400 text-cyan-300 px-4 py-2 rounded-xl hover:bg-cyan-950"
+          onClick={restartQuiz}
+          className="mt-6 rounded-xl border border-cyan-300 px-5 py-3 text-cyan-200 hover:bg-cyan-400/20"
         >
           Restart Mock Test
         </button>
-      </section>
+      </div>
     );
   }
 
   return (
-    <section className="mt-8 border border-cyan-500 rounded-2xl p-6 bg-black">
-      <p className="text-green-400 text-sm">MPSC ASPIRANT MODE</p>
+    <div className="rounded-2xl border border-cyan-400/70 bg-black/60 p-6 shadow-[0_0_25px_rgba(34,211,238,0.35)]">
+      <p className="text-sm font-bold text-green-400">MPSC ASPIRANT MODE</p>
 
-      <h2 className="text-4xl font-bold text-cyan-300 mt-2">
-        Genesis Mock Terminal
+      <h2 className="mt-2 text-4xl font-bold text-cyan-300">
+        Genesis Mock Terminal TEST 999
       </h2>
 
-      <p className="text-zinc-400 mt-2">
-        Question {current + 1} of {questions.length} • {q.category}
+      <p className="mt-2 text-white">
+        Question {current + 1} of {quizQuestions.length} •{" "}
+        {currentQuestion.category}
       </p>
 
-      <div className="mt-6 border border-zinc-700 rounded-xl p-5">
-        <p className="text-xl font-bold text-white">
-          {q.question}
-        </p>
+      <div className="mt-6 rounded-xl border border-white/30 p-5">
+        <h3 className="text-xl font-bold text-white">
+          {currentQuestion.question}
+        </h3>
 
-        <div className="mt-5 grid gap-3">
-          {q.options.map((option) => {
-            const isCorrect = selected && option === q.answer;
-            const isWrong = selected === option && option !== q.answer;
+        <div className="mt-5 space-y-3">
+          {currentQuestion.options.map((option: string) => {
+            const isCorrect = option === currentQuestion.answer;
+            const isSelected = option === selected;
 
             return (
               <button
                 key={option}
                 onClick={() => handleAnswer(option)}
-                className={`text-left border rounded-xl p-4 transition ${
-                  isCorrect
-                    ? "border-green-400 text-green-300"
-                    : isWrong
-                    ? "border-red-400 text-red-300"
-                    : "border-zinc-700 text-zinc-200 hover:border-cyan-400"
+                className={`block w-full rounded-xl border px-4 py-3 text-left transition ${
+                  selected
+                    ? isCorrect
+                      ? "border-green-400 bg-green-400/20 text-green-200"
+                      : isSelected
+                      ? "border-red-400 bg-red-400/20 text-red-200"
+                      : "border-white/20 text-white/60"
+                    : "border-white/40 text-white hover:bg-cyan-400/20"
                 }`}
               >
                 {option}
@@ -177,21 +135,24 @@ export default function MockTest() {
         </div>
 
         {selected && (
-          <div className="mt-5">
-            <p className="text-sm text-zinc-400">
-              Correct answer:{" "}
-              <span className="text-green-400">{q.answer}</span>
+          <div className="mt-5 rounded-xl border border-cyan-300/40 bg-cyan-300/10 p-4">
+            <p className="font-bold text-cyan-200">
+              Correct Answer: {currentQuestion.answer}
+            </p>
+
+            <p className="mt-2 text-sm text-white/80">
+              {currentQuestion.explanation}
             </p>
 
             <button
               onClick={nextQuestion}
-              className="mt-4 border border-green-400 text-green-300 px-4 py-2 rounded-xl hover:bg-green-950"
+              className="mt-4 rounded-xl border border-cyan-300 px-5 py-2 text-cyan-200 hover:bg-cyan-400/20"
             >
-              Continue
+              Next Question
             </button>
           </div>
         )}
       </div>
-    </section>
+    </div>
   );
 }
