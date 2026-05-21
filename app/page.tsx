@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import MarketWatch from "./components/MarketWatch";
-
+import NpcCounter from "./components/NpcCounter";
 export default function HomePage() {
 
   const topics = [
@@ -65,7 +65,9 @@ export default function HomePage() {
 
           <p className="text-sm text-cyan-500 mt-1">
             Genesis is monitoring India Myanmar Border.
-          </p>
+            </p>
+            
+            <NpcCounter />
         </div>
 
         <div className="grid md:grid-cols-3 gap-5">
