@@ -1,5 +1,6 @@
 "use client";
 import LiveNewsFeed from "./components/livenewsfeed";
+import MockTest from "./components/MockTest";
 import { useState } from "react";
 import MarketWatch from "./components/MarketWatch";
 import NpcCounter from "./components/NpcCounter";
@@ -137,6 +138,9 @@ export default function HomePage() {
 
             <div className="mt-10">
               <MarketWatch />
+              <div className="mt-10">
+  <MockTest />
+</div>
             </div>
 
           </div>
