@@ -1,5 +1,5 @@
 "use client";
-
+import LiveNewsFeed from "./components/LiveNewsFeed";
 import { useState } from "react";
 import MarketWatch from "./components/MarketWatch";
 import NpcCounter from "./components/NpcCounter";
@@ -116,8 +116,9 @@ export default function HomePage() {
 
               <p className="text-red-400 font-bold mb-3">
                 Brutal AI Read
-              </p>
-
+              
+              <LiveNewsFeed topic={active.search} />
+</p>
               <p className="text-zinc-300 leading-7">
                 {active.critic}
               </p>
