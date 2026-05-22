@@ -1,151 +1,71 @@
-export const questions = [
+export type Question = {
+  id: number;
+  category: string;
+  difficulty: "Easy" | "Medium" | "Hard";
+  question: string;
+  options: string[];
+  correctAnswer: string;
+  explanation: string;
+};
+
+export const questions: Question[] = [
   {
-    category: "Geopolitics",
-    difficulty: "easy",
-    question: "What does QUAD mainly focus on?",
-    options: [
-      "Indo-Pacific cooperation",
-      "European Union expansion",
-      "African Union reform",
-      "Middle East oil pricing"
-    ],
-    answer: "Indo-Pacific cooperation",
-    explanation:
-      "QUAD focuses on strategic cooperation in the Indo-Pacific region."
+    id: 1,
+    category: "Political Science",
+    difficulty: "Easy",
+    question: "Who wrote The Republic?",
+    options: ["Plato", "Aristotle", "Locke", "Rousseau"],
+    correctAnswer: "Plato",
+    explanation: "The Republic was written by Plato."
   },
 
   {
+    id: 2,
     category: "Indian Polity",
-    difficulty: "easy",
+    difficulty: "Easy",
     question: "Who is known as the Father of the Indian Constitution?",
-    options: [
-      "Jawaharlal Nehru",
-      "B. R. Ambedkar",
-      "Mahatma Gandhi",
-      "Sardar Patel"
-    ],
-    answer: "B. R. Ambedkar",
-    explanation:
-      "Dr. B. R. Ambedkar chaired the drafting committee."
+    options: ["Mahatma Gandhi", "B. R. Ambedkar", "Nehru", "Patel"],
+    correctAnswer: "B. R. Ambedkar",
+    explanation: "Ambedkar chaired the Drafting Committee."
   },
 
   {
-    category: "Northeast India",
-    difficulty: "easy",
-    question: "Which state is known as the Land of the Rising Sun in India?",
-    options: [
-      "Assam",
-      "Mizoram",
-      "Arunachal Pradesh",
-      "Nagaland"
-    ],
-    answer: "Arunachal Pradesh",
-    explanation:
-      "Arunachal Pradesh is the first Indian state to receive sunrise."
+    id: 3,
+    category: "Science",
+    difficulty: "Medium",
+    question: "What planet is known as the Red Planet?",
+    options: ["Mars", "Earth", "Venus", "Jupiter"],
+    correctAnswer: "Mars",
+    explanation: "Mars appears red because of iron oxide."
   },
 
   {
-    category: "Cybersecurity",
-    difficulty: "easy",
-    question: "What does 2FA stand for?",
-    options: [
-      "Two Factor Authentication",
-      "Two File Access",
-      "Transfer File Authorization",
-      "Two Face Approval"
-    ],
-    answer: "Two Factor Authentication",
-    explanation:
-      "2FA adds an extra layer of protection beyond passwords."
-  },
-
-  {
-    category: "International Relations",
-    difficulty: "medium",
-    question: "Where is NATO headquartered?",
-    options: [
-      "Washington DC",
-      "London",
-      "Brussels",
-      "Paris"
-    ],
-    answer: "Brussels",
-    explanation:
-      "NATO headquarters is located in Brussels, Belgium."
-  },
-
-  {
-    category: "Mizoram GK",
-    difficulty: "easy",
-    question: "What is the capital city of Mizoram?",
-    options: [
-      "Shillong",
-      "Aizawl",
-      "Imphal",
-      "Agartala"
-    ],
-    answer: "Aizawl",
-    explanation:
-      "Aizawl is the capital and largest city of Mizoram."
-  },
-
-  {
-    category: "Economy",
-    difficulty: "medium",
-    question: "Which institution controls monetary policy in India?",
-    options: [
-      "NITI Aayog",
-      "Finance Ministry",
-      "Reserve Bank of India",
-      "SEBI"
-    ],
-    answer: "Reserve Bank of India",
-    explanation:
-      "RBI manages India's monetary policy and banking system."
-  },
-
-  {
+    id: 4,
     category: "History",
-    difficulty: "medium",
-    question: "Who was the first Prime Minister of India?",
+    difficulty: "Medium",
+    question: "Who was the first President of India?",
     options: [
-      "B. R. Ambedkar",
+      "Rajendra Prasad",
+      "Nehru",
       "Sardar Patel",
-      "Jawaharlal Nehru",
-      "Rajendra Prasad"
+      "Abdul Kalam"
     ],
-    answer: "Jawaharlal Nehru",
-    explanation:
-      "Jawaharlal Nehru became the first Prime Minister in 1947."
+    correctAnswer: "Rajendra Prasad",
+    explanation: "Rajendra Prasad became the first President in 1950."
   },
 
   {
-    category: "Geopolitics",
-    difficulty: "medium",
-    question: "Which strait is crucial for global oil trade?",
+    id: 5,
+    category: "Geography",
+    difficulty: "Easy",
+    question: "Which is the largest ocean?",
     options: [
-      "Strait of Hormuz",
-      "Bering Strait",
-      "Cook Strait",
-      "Palk Strait"
+      "Pacific Ocean",
+      "Atlantic Ocean",
+      "Indian Ocean",
+      "Arctic Ocean"
     ],
-    answer: "Strait of Hormuz",
-    explanation:
-      "A major percentage of global oil shipments pass through it."
-  },
-
-  {
-    category: "Indian Constitution",
-    difficulty: "hard",
-    question: "Which article deals with Emergency Provisions?",
-    options: [
-      "Article 32",
-      "Article 352",
-      "Article 21",
-      "Article 370"
-    ],
-    answer: "Article 352",
-    explanation:
-      "Article 352 deals with National Emergency provisions."
+    correctAnswer: "Pacific Ocean",
+    explanation: "The Pacific Ocean is the largest ocean on Earth."
   }
 ];

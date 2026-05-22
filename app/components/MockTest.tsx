@@ -1,132 +1,159 @@
-"use client";
+import { useMemo, useState } from "react";
+import { questions, Question } from "../data/questions";
 
-import { useState } from "react";
-import { questions } from "../data/questions";
-
-function getRandomQuestions() {
-  return [...questions].sort(() => Math.random() - 0.5).slice(0, 5);
+function shuffle<T>(array: T[]): T[] {
+  return [...array].sort(() => Math.random() - 0.5);
 }
 
-const failureLines = [
-  "Critical academic damage detected.",
-  "MPSC did not attack you. You attacked yourself.",
-  "The Constitution fought harder than expected.",
-];
-
-const averageLines = [
-  "You survived. Barely.",
-  "Not bad. Not good. Very human.",
-  "Revise before becoming overconfident.",
-];
-
-const successLines = [
-  "Operator promoted. MPSC fears your existence.",
-  "Scholar mode activated.",
-  "High command approves this performance.",
-];
-
 export default function MockTest() {
-  const [quizQuestions, setQuizQuestions] = useState(getRandomQuestions);
-  const [current, setCurrent] = useState(0);
-  const [score, setScore] = useState(0);
-  const [selected, setSelected] = useState<string | null>(null);
-  const [finished, setFinished] = useState(false);
+  const [questionPool, setQuestionPool] = useState<Question[]>(() =>
+    shuffle(questions)
+  );
 
-  const currentQuestion = quizQuestions[current];
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+  const [score, setScore] = useState(0);
+  const [answeredCount, setAnsweredCount] = useState(0);
+
+  const currentQuestion = questionPool[currentIndex];
+
+  const categories = useMemo(() => {
+    return Array.from(new Set(questions.map((q) => q.category)));
+  }, []);
 
   function handleAnswer(option: string) {
-    if (selected) return;
+    if (selectedAnswer) return;
 
-    setSelected(option);
+    setSelectedAnswer(option);
+    setAnsweredCount((prev) => prev + 1);
 
-    if (option === currentQuestion.answer) {
+    if (option === currentQuestion.correctAnswer) {
       setScore((prev) => prev + 1);
     }
   }
 
   function nextQuestion() {
-    if (current + 1 < quizQuestions.length) {
-      setCurrent((prev) => prev + 1);
-      setSelected(null);
-    } else {
-      setFinished(true);
+    const nextIndex = currentIndex + 1;
+
+    if (nextIndex < questionPool.length) {
+      setCurrentIndex(nextIndex);
+      setSelectedAnswer(null);
+      return;
     }
+
+    setQuestionPool(shuffle(questions));
+    setCurrentIndex(0);
+    setSelectedAnswer(null);
   }
 
-  function restartQuiz() {
-    setQuizQuestions(getRandomQuestions());
-    setCurrent(0);
+  function resetQuiz() {
+    setQuestionPool(shuffle(questions));
+    setCurrentIndex(0);
+    setSelectedAnswer(null);
     setScore(0);
-    setSelected(null);
-    setFinished(false);
+    setAnsweredCount(0);
   }
 
-  const resultLine =
-    score <= 2
-      ? failureLines[Math.floor(Math.random() * failureLines.length)]
-      : score <= 3
-      ? averageLines[Math.floor(Math.random() * averageLines.length)]
-      : successLines[Math.floor(Math.random() * successLines.length)];
-
-  if (finished) {
+  if (!currentQuestion) {
     return (
-      <div className="rounded-2xl border border-green-400 bg-black/60 p-6">
-        <p className="text-sm font-bold text-green-400">
-          GENESIS MOCK TERMINAL
-        </p>
-
-        <h2 className="mt-2 text-4xl font-bold text-cyan-300">
-          Score: {score}/{quizQuestions.length}
-        </h2>
-
-        <p className="mt-4 text-white font-semibold">{resultLine}</p>
-
-        <button
-          onClick={restartQuiz}
-          className="mt-6 rounded-xl border border-cyan-300 px-5 py-3 text-cyan-200 hover:bg-cyan-400/20"
-        >
-          Restart Mock Test
-        </button>
+      <div style={{ padding: "40px", color: "white" }}>
+        No questions found.
       </div>
     );
   }
 
   return (
-    <div className="rounded-2xl border border-cyan-400/70 bg-black/60 p-6 shadow-[0_0_25px_rgba(34,211,238,0.35)]">
-      <p className="text-sm font-bold text-green-400">MPSC ASPIRANT MODE</p>
+    <div
+      style={{
+        maxWidth: "900px",
+        margin: "40px auto",
+        padding: "24px",
+        color: "white"
+      }}
+    >
+      <h1 style={{ marginBottom: "10px" }}>Genesis Mock Test</h1>
 
-      <h2 className="mt-2 text-4xl font-bold text-cyan-300">
-        Genesis Mock Terminal TEST 999
-      </h2>
-
-      <p className="mt-2 text-white">
-        Question {current + 1} of {quizQuestions.length} •{" "}
-        {currentQuestion.category}
+      <p>
+        Score: {score} / {answeredCount}
       </p>
 
-      <div className="mt-6 rounded-xl border border-white/30 p-5">
-        <h3 className="text-xl font-bold text-white">
-          {currentQuestion.question}
-        </h3>
+      <p>
+        Question {currentIndex + 1} of {questionPool.length}
+      </p>
 
-        <div className="mt-5 space-y-3">
-          {currentQuestion.options.map((option: string) => {
-            const isCorrect = option === currentQuestion.answer;
-            const isSelected = option === selected;
+      <p>
+        <strong>Category:</strong> {currentQuestion.category}
+      </p>
+
+      <p>
+        <strong>Difficulty:</strong> {currentQuestion.difficulty}
+      </p>
+
+      <p
+        style={{
+          opacity: 0.7,
+          fontSize: "14px",
+          marginBottom: "20px"
+        }}
+      >
+        Categories: {categories.join(", ")}
+      </p>
+
+      <div
+        style={{
+          background: "#111827",
+          padding: "24px",
+          borderRadius: "14px",
+          border: "1px solid #333"
+        }}
+      >
+        <h2 style={{ marginBottom: "20px" }}>
+          {currentQuestion.question}
+        </h2>
+
+        <div
+          style={{
+            display: "grid",
+            gap: "12px"
+          }}
+        >
+          {currentQuestion.options.map((option) => {
+            const isCorrect =
+              option === currentQuestion.correctAnswer;
+
+            const isSelected =
+              selectedAnswer === option;
+
+            let background = "#1f2937";
+
+            if (selectedAnswer && isCorrect) {
+              background = "#14532d";
+            }
+
+            if (
+              selectedAnswer &&
+              isSelected &&
+              !isCorrect
+            ) {
+              background = "#7f1d1d";
+            }
 
             return (
               <button
                 key={option}
                 onClick={() => handleAnswer(option)}
-                className={`block w-full rounded-xl border px-4 py-3 text-left transition ${
-                  selected
-                    ? isCorrect
-                      ? "border-green-400 bg-green-400/20 text-green-200"
-                      : isSelected
-                      ? "border-red-400 bg-red-400/20 text-red-200"
-                      : "border-white/20 text-white/60"
-                    : "border-white/40 text-white hover:bg-cyan-400/20"
-                }`}
+                style={{
+                  padding: "14px",
+                  borderRadius: "10px",
+                  border: "1px solid #444",
+                  background,
+                  color: "white",
+                  cursor: selectedAnswer
+                    ? "not-allowed"
+                    : "pointer",
+                  textAlign: "left",
+                  fontSize: "16px"
+                }}
               >
                 {option}
               </button>
@@ -134,22 +161,61 @@ export default function MockTest() {
           })}
         </div>
 
-        {selected && (
-          <div className="mt-5 rounded-xl border border-cyan-300/40 bg-cyan-300/10 p-4">
-            <p className="font-bold text-cyan-200">
-              Correct Answer: {currentQuestion.answer}
+        {selectedAnswer && (
+          <div
+            style={{
+              marginTop: "24px",
+              padding: "18px",
+              borderRadius: "10px",
+              background: "#0f172a",
+              border: "1px solid #333"
+            }}
+          >
+            <h3>
+              {selectedAnswer ===
+              currentQuestion.correctAnswer
+                ? "Correct ✅"
+                : "Wrong ❌"}
+            </h3>
+
+            <p>
+              <strong>Correct Answer:</strong>{" "}
+              {currentQuestion.correctAnswer}
             </p>
 
-            <p className="mt-2 text-sm text-white/80">
-              {currentQuestion.explanation}
-            </p>
+            <p>{currentQuestion.explanation}</p>
 
-            <button
-              onClick={nextQuestion}
-              className="mt-4 rounded-xl border border-cyan-300 px-5 py-2 text-cyan-200 hover:bg-cyan-400/20"
+            <div
+              style={{
+                display: "flex",
+                gap: "10px",
+                marginTop: "20px"
+              }}
             >
-              Next Question
-            </button>
+              <button
+                onClick={nextQuestion}
+                style={{
+                  padding: "12px 20px",
+                  borderRadius: "8px",
+                  border: "none",
+                  cursor: "pointer"
+                }}
+              >
+                Next Question
+              </button>
+
+              <button
+                onClick={resetQuiz}
+                style={{
+                  padding: "12px 20px",
+                  borderRadius: "8px",
+                  border: "none",
+                  cursor: "pointer"
+                }}
+              >
+                Reset Quiz
+              </button>
+            </div>
           </div>
         )}
       </div>
