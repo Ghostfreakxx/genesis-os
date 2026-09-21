@@ -4,6 +4,7 @@ import LiveNewsFeed from "./components/livenewsfeed";
 import NewNEMap from "./components/NewNEMap";
 import { useState } from "react";
 import MarketWatch from "./components/MarketWatch";
+import IndiaMarketWatch from "./components/IndiaMarketWatch";
 import NpcCounter from "./components/NpcCounter";
 
 export default function HomePage() {
@@ -148,6 +149,10 @@ export default function HomePage() {
 
             <div className="mt-10 hover:scale-[1.01] transition-all duration-500">
               <MarketWatch />
+            </div>
+
+            <div className="mt-10 hover:scale-[1.01] transition-all duration-500">
+              <IndiaMarketWatch />
             </div>
           </div>
         </div>
