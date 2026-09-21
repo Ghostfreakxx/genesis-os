@@ -1,12 +1,26 @@
+import { NextResponse } from "next/server";
+import { MARKET_ASSETS, type MarketData } from "@/app/lib/market-assets";
+
 export async function GET() {
-  const url =
-    "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,ripple,cardano&vs_currencies=usd&include_24hr_change=true&include_last_updated_at=true";
+  const ids = MARKET_ASSETS.map((asset) => asset.id).join(",");
+  const url = `https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd&include_24hr_change=true`;
 
-  const res = await fetch(url, {
-    next: { revalidate: 60 },
-  });
+  try {
+    const res = await fetch(url, { next: { revalidate: 60 } });
 
-  const data = await res.json();
+    if (!res.ok) {
+      return NextResponse.json(
+        { error: "Market data provider returned an error" },
+        { status: 502 }
+      );
+    }
 
-  return Response.json(data);
+    const data: MarketData = await res.json();
+    return NextResponse.json(data);
+  } catch {
+    return NextResponse.json(
+      { error: "Market data service unavailable" },
+      { status: 502 }
+    );
+  }
 }
