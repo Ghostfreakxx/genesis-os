@@ -94,10 +94,10 @@ export default function HomePage() {
             </p>
 
             <Link
-              href="/archive"
+              href="/tracker"
               className="inline-block text-sm text-zinc-400 hover:text-cyan-300 underline mt-2 transition-colors"
             >
-              Historical Archive: Germany 1933–1945 →
+              Global Conflict Tracker: Live World Map →
             </Link>
 
             <NpcCounter />
