@@ -1,77 +1,85 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import AssetCard from "./AssetCard";
+import { MARKET_ASSETS, type MarketData } from "@/app/lib/market-assets";
+
+const REFRESH_INTERVAL_MS = 60_000;
 
 export default function MarketWatch() {
-  const [data, setData] = useState<any>(null);
-
-  async function loadMarket() {
-    const res = await fetch("/api/market");
-    const json = await res.json();
-    setData(json);
-  }
+  const [data, setData] = useState<MarketData | null>(null);
+  const [error, setError] = useState(false);
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
   useEffect(() => {
-    loadMarket();
-    const timer = setInterval(loadMarket, 60000);
-    return () => clearInterval(timer);
-  }, []);
+    let cancelled = false;
 
-  const assets = [
-    { id: "bitcoin", name: "Bitcoin", symbol: "BTC" },
-    { id: "ethereum", name: "Ethereum", symbol: "ETH" },
-    { id: "ripple", name: "XRP", symbol: "XRP" },
-    { id: "cardano", name: "Cardano", symbol: "ADA" },
-  ];
+    async function loadMarket() {
+      try {
+        const res = await fetch("/api/market");
+        if (!res.ok) throw new Error("Request failed");
+        const json: MarketData = await res.json();
+        if (cancelled) return;
+        setData(json);
+        setError(false);
+        setLastUpdated(new Date());
+      } catch {
+        if (!cancelled) setError(true);
+      }
+    }
+
+    loadMarket();
+    const timer = setInterval(loadMarket, REFRESH_INTERVAL_MS);
+    return () => {
+      cancelled = true;
+      clearInterval(timer);
+    };
+  }, []);
 
   return (
     <section className="border border-yellow-400 rounded-2xl p-6 bg-black shadow-[0_0_30px_#eab30855]">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center flex-wrap gap-2">
         <h2 className="text-4xl font-bold text-yellow-300 animate-pulse">
           Market Watch
         </h2>
 
-        <p className="text-green-400 font-mono text-sm">
-          ● LIVE CRYPTO SCAN
-        </p>
+        <div className="text-right">
+          <p
+            className={`font-mono text-sm ${
+              error ? "text-red-400" : "text-green-400"
+            }`}
+          >
+            {error ? "● FEED ERROR" : "● LIVE CRYPTO SCAN"}
+          </p>
+          {lastUpdated && (
+            <p className="text-zinc-500 text-xs mt-0.5">
+              Updated {lastUpdated.toLocaleTimeString()}
+            </p>
+          )}
+        </div>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-4 mt-6">
-        {assets.map((asset) => {
-          const price = data?.[asset.id]?.usd;
-          const change = data?.[asset.id]?.usd_24h_change;
+      <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-4 mt-6">
+        {MARKET_ASSETS.map((asset) => {
+          const quote = data?.[asset.id];
+          const priceLabel =
+            typeof quote?.usd === "number"
+              ? `$${quote.usd.toLocaleString()}`
+              : null;
 
           return (
-            <div
+            <AssetCard
               key={asset.id}
-              className="border border-zinc-500 rounded-xl p-4 bg-[#090909] hover:border-cyan-400 hover:scale-[1.02] transition-all duration-300"
-            >
-              <div className="flex justify-between">
-                <h3 className="text-2xl font-bold text-cyan-300">
-                  {asset.name}
-                </h3>
-
-                <span className="text-yellow-300 font-bold">
-                  {asset.symbol}
-                </span>
-              </div>
-
-              <p className="text-white text-2xl mt-3">
-                {price ? `$${price.toLocaleString()}` : "Loading..."}
-              </p>
-
-              <p
-                className={`mt-2 font-bold ${
-                  change >= 0 ? "text-green-400" : "text-red-400"
-                }`}
-              >
-                {change ? `${change.toFixed(2)}% / 24h` : "Scanning..."}
-              </p>
-
-              <p className="text-zinc-400 mt-3">
-                Real-time market data feed.
-              </p>
-            </div>
+              name={asset.name}
+              ticker={asset.symbol}
+              priceLabel={priceLabel}
+              changePercent={quote?.usd_24h_change ?? null}
+              footer={
+                <p className="text-zinc-400 text-sm">
+                  Real-time market data feed.
+                </p>
+              }
+            />
           );
         })}
       </div>
