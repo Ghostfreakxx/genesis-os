@@ -84,6 +84,10 @@ export default function HomePage() {
               <span className="blink-cursor text-cyan-400">_</span>
             </h1>
 
+            <p className="font-tactical text-sm uppercase tracking-[0.2em] text-green-400 mt-1">
+              Welcome, Resistance.
+            </p>
+
             <p className="text-zinc-400 mt-2">
               Monitoring global signals.
             </p>
