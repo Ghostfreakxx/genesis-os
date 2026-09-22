@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import LiveNewsFeed from "./components/livenewsfeed";
 import NewNEMap from "./components/NewNEMap";
 import { useState } from "react";
@@ -91,6 +92,13 @@ export default function HomePage() {
               <span className="h-2 w-2 rounded-full bg-red-500 animate-ping"></span>
               Genesis is monitoring {active.label}.
             </p>
+
+            <Link
+              href="/archive"
+              className="inline-block text-sm text-zinc-400 hover:text-cyan-300 underline mt-2 transition-colors"
+            >
+              Historical Archive: Germany 1933–1945 →
+            </Link>
 
             <NpcCounter />
 
