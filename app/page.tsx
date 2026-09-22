@@ -9,6 +9,12 @@ import NpcCounter from "./components/NpcCounter";
 import WarRoomHud from "./components/WarRoomHud";
 import HudFrame from "./components/HudFrame";
 import ThreatBadge from "./components/ThreatBadge";
+import TensionIndex from "./components/TensionIndex";
+import CommandTerminal from "./components/CommandTerminal";
+import IncidentTicker from "./components/IncidentTicker";
+import AiBriefing from "./components/AiBriefing";
+import { generateCallsign } from "./lib/callsign";
+import { computeTensionScore } from "./lib/threat-levels";
 
 const topics = [
   {
@@ -45,12 +51,19 @@ const topics = [
 
 export default function HomePage() {
   const [active, setActive] = useState(topics[1]);
+  const [callsign] = useState(generateCallsign);
+  const tensionScore = computeTensionScore(topics.map((topic) => topic.threat));
+
+  function selectTopicByLabel(label: string) {
+    const match = topics.find((topic) => topic.label === label);
+    if (match) setActive(match);
+  }
 
   return (
     <>
-      <WarRoomHud alertLevel={active.threat} />
+      <WarRoomHud alertLevel={active.threat} callsign={callsign} />
 
-      <main className="min-h-screen bg-[#050505] text-white p-4 md:p-6 overflow-hidden relative">
+      <main className="min-h-screen bg-[#050505] text-white p-4 md:p-6 pb-14 overflow-hidden relative">
         <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#22d3ee33_1px,transparent_1px),linear-gradient(to_bottom,#22d3ee33_1px,transparent_1px)] bg-[size:45px_45px] animate-pulse"></div>
 
         <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-[700px] w-[700px] rounded-full overflow-hidden opacity-30 pointer-events-none">
@@ -81,6 +94,8 @@ export default function HomePage() {
 
             <NpcCounter />
 
+            <TensionIndex threats={topics.map((topic) => topic.threat)} />
+
             <div className="mt-5 h-1 bg-cyan-500 rounded-full shadow-[0_0_20px_#22d3ee] animate-pulse"></div>
 
             <div className="relative mt-2 h-1 overflow-hidden rounded-full bg-zinc-900">
@@ -97,6 +112,17 @@ export default function HomePage() {
                 }
               }
             `}</style>
+          </HudFrame>
+
+          <HudFrame className="mb-8 text-green-500">
+            <CommandTerminal
+              topics={topics}
+              activeLabel={active.label}
+              threatLevel={active.threat}
+              tensionScore={tensionScore}
+              callsign={callsign}
+              onSelectTopic={selectTopicByLabel}
+            />
           </HudFrame>
 
           <div className="grid md:grid-cols-3 gap-5">
@@ -157,6 +183,8 @@ export default function HomePage() {
                 <p className="text-zinc-300 leading-7 mt-4">
                   {active.critic}
                 </p>
+
+                <AiBriefing topic={active.search} />
               </div>
 
               <a
@@ -184,6 +212,8 @@ export default function HomePage() {
           </div>
         </div>
       </main>
+
+      <IncidentTicker activeLabel={active.label} />
     </>
   );
 }

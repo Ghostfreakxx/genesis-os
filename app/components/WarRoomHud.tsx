@@ -5,12 +5,10 @@ import { DEFAULT_THREAT_STYLE, THREAT_STYLES } from "@/app/lib/threat-levels";
 
 interface WarRoomHudProps {
   alertLevel: string;
+  callsign: string;
 }
 
-export default function WarRoomHud({ alertLevel }: WarRoomHudProps) {
-  const [callsign] = useState(
-    () => `OP-${Math.floor(1000 + Math.random() * 9000)}`
-  );
+export default function WarRoomHud({ alertLevel, callsign }: WarRoomHudProps) {
   const [now, setNow] = useState(() => new Date());
 
   useEffect(() => {

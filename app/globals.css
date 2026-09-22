@@ -88,3 +88,17 @@ body {
 .blink-cursor {
   animation: cursorBlink 1s step-end infinite;
 }
+
+@keyframes tickerScroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.ticker-track {
+  display: inline-block;
+  animation: tickerScroll 40s linear infinite;
+}
