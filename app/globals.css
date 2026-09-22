@@ -102,3 +102,9 @@ body {
   display: inline-block;
   animation: tickerScroll 40s linear infinite;
 }
+
+/* Turns free, keyless OpenStreetMap tiles into a dark, neon-compatible
+   basemap so the Conflict Tracker never depends on a paid tile API. */
+.map-tiles-dark {
+  filter: invert(1) hue-rotate(180deg) brightness(0.85) contrast(0.9) saturate(0.6);
+}
