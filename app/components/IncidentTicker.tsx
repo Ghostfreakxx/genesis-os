@@ -40,8 +40,8 @@ export default function IncidentTicker({ activeLabel }: { activeLabel: string })
   const feed = events.join("     //     ");
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-20 border-t border-cyan-500/30 bg-black/85 backdrop-blur-sm overflow-hidden py-2">
-      <div className="ticker-track whitespace-nowrap font-tactical text-xs text-cyan-500/80 tracking-wider">
+    <div className="fixed bottom-0 left-0 right-0 z-20 border-t border-line bg-[#060912]/80 backdrop-blur-md overflow-hidden py-2">
+      <div className="ticker-track whitespace-nowrap font-tactical text-xs text-slate-400 tracking-wider [mask-image:linear-gradient(90deg,transparent,#000_6%,#000_94%,transparent)]">
         <span className="pr-10">{feed}</span>
         <span className="pr-10">{feed}</span>
       </div>

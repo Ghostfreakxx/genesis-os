@@ -7,34 +7,34 @@ export interface ThreatStyle {
 
 export const THREAT_STYLES: Record<string, ThreatStyle> = {
   Moderate: {
-    text: "text-yellow-400",
-    dot: "bg-yellow-400",
-    border: "border-yellow-500/40",
-    bg: "bg-yellow-500/10",
+    text: "text-amber-300",
+    dot: "bg-amber-300",
+    border: "border-amber-400/30",
+    bg: "bg-amber-400/10",
   },
   High: {
     text: "text-orange-400",
     dot: "bg-orange-400",
-    border: "border-orange-500/40",
+    border: "border-orange-500/30",
     bg: "bg-orange-500/10",
   },
   Severe: {
-    text: "text-red-400",
-    dot: "bg-red-400",
-    border: "border-red-500/40",
-    bg: "bg-red-500/10",
+    text: "text-rose-400",
+    dot: "bg-rose-400",
+    border: "border-rose-500/30",
+    bg: "bg-rose-500/10",
   },
   Critical: {
-    text: "text-red-400",
-    dot: "bg-red-400",
-    border: "border-red-500/40",
-    bg: "bg-red-500/10",
+    text: "text-rose-400",
+    dot: "bg-rose-400",
+    border: "border-rose-500/30",
+    bg: "bg-rose-500/10",
   },
   Extreme: {
-    text: "text-pink-400",
-    dot: "bg-pink-400",
-    border: "border-pink-500/40",
-    bg: "bg-pink-500/10",
+    text: "text-fuchsia-400",
+    dot: "bg-fuchsia-400",
+    border: "border-fuchsia-500/30",
+    bg: "bg-fuchsia-500/10",
   },
 };
 
@@ -60,11 +60,11 @@ export interface TensionLevel {
 }
 
 const TENSION_LEVELS: TensionLevel[] = [
-  { max: 24, label: "LOW", text: "text-green-400", bar: "bg-green-500", bg: "bg-green-500/10", border: "border-green-500/40" },
-  { max: 49, label: "GUARDED", text: "text-yellow-400", bar: "bg-yellow-500", bg: "bg-yellow-500/10", border: "border-yellow-500/40" },
-  { max: 69, label: "ELEVATED", text: "text-orange-400", bar: "bg-orange-500", bg: "bg-orange-500/10", border: "border-orange-500/40" },
-  { max: 89, label: "HIGH", text: "text-red-400", bar: "bg-red-500", bg: "bg-red-500/10", border: "border-red-500/40" },
-  { max: 100, label: "SEVERE", text: "text-pink-400", bar: "bg-pink-500", bg: "bg-pink-500/10", border: "border-pink-500/40" },
+  { max: 24, label: "LOW", text: "text-emerald-400", bar: "bg-emerald-500", bg: "bg-emerald-500/10", border: "border-emerald-500/30" },
+  { max: 49, label: "GUARDED", text: "text-amber-300", bar: "bg-amber-400", bg: "bg-amber-400/10", border: "border-amber-400/30" },
+  { max: 69, label: "ELEVATED", text: "text-orange-400", bar: "bg-orange-500", bg: "bg-orange-500/10", border: "border-orange-500/30" },
+  { max: 89, label: "HIGH", text: "text-rose-400", bar: "bg-rose-500", bg: "bg-rose-500/10", border: "border-rose-500/30" },
+  { max: 100, label: "SEVERE", text: "text-fuchsia-400", bar: "bg-fuchsia-500", bg: "bg-fuchsia-500/10", border: "border-fuchsia-500/30" },
 ];
 
 export function computeTensionScore(threats: string[]): number {

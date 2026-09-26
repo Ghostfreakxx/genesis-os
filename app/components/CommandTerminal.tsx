@@ -144,19 +144,26 @@ export default function CommandTerminal({
   }
 
   return (
-    <div className="border border-green-500 rounded-2xl bg-black shadow-[0_0_25px_#22c55e33] font-tactical text-sm">
-      <div className="border-b border-green-500/40 px-4 py-2 flex items-center justify-between">
-        <p className="text-green-400 tracking-widest text-xs uppercase">
-          Command Terminal
-        </p>
-        <span className="h-2 w-2 rounded-full bg-green-400 animate-pulse" />
+    <div className="panel overflow-hidden font-tactical text-sm">
+      <div className="border-b border-line bg-white/[0.02] px-4 py-2.5 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <span className="flex gap-1.5" aria-hidden>
+            <span className="h-2.5 w-2.5 rounded-full bg-rose-400/70" />
+            <span className="h-2.5 w-2.5 rounded-full bg-amber-300/70" />
+            <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/70" />
+          </span>
+          <p className="text-slate-400 tracking-widest text-xs uppercase">
+            Command Terminal
+          </p>
+        </div>
+        <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
       </div>
 
       <div ref={scrollRef} className="h-48 overflow-y-auto px-4 py-3 space-y-1">
         {lines.map((line) => (
           <p
             key={line.id}
-            className={line.kind === "input" ? "text-cyan-300" : "text-green-400/90"}
+            className={line.kind === "input" ? "text-white" : "text-accent/85"}
           >
             {line.kind === "input" ? `genesis@warroom:~$ ${line.text}` : line.text}
           </p>
@@ -169,13 +176,13 @@ export default function CommandTerminal({
           runCommand(input);
           setInput("");
         }}
-        className="border-t border-green-500/40 px-4 py-2 flex items-center gap-2"
+        className="border-t border-line bg-black/20 px-4 py-2.5 flex items-center gap-2"
       >
-        <span className="text-cyan-400">genesis@warroom:~$</span>
+        <span className="text-accent">genesis@warroom:~$</span>
         <input
           value={input}
           onChange={(event) => setInput(event.target.value)}
-          className="flex-1 bg-transparent outline-none text-white placeholder:text-zinc-600"
+          className="flex-1 bg-transparent outline-none text-white caret-accent placeholder:text-slate-600"
           placeholder="type a command..."
           autoComplete="off"
           spellCheck={false}

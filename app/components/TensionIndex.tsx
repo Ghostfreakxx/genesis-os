@@ -18,9 +18,9 @@ export default function TensionIndex({ threats }: { threats: string[] }) {
   const level = getTensionLevel(score);
 
   return (
-    <div className={`mt-5 border rounded-xl p-4 ${level.border} ${level.bg}`}>
+    <div className={`rounded-[0.875rem] border p-5 ${level.border} ${level.bg}`}>
       <div className="flex items-center justify-between gap-2">
-        <p className="font-tactical text-xs uppercase tracking-[0.2em] text-zinc-400">
+        <p className="font-tactical text-xs uppercase tracking-[0.2em] text-slate-400">
           Global Tension Index
         </p>
         <span className={`font-tactical text-xs uppercase tracking-wider ${level.text}`}>
@@ -29,13 +29,13 @@ export default function TensionIndex({ threats }: { threats: string[] }) {
       </div>
 
       <div className="flex items-center gap-3 mt-2">
-        <div className="relative flex-1 h-2 rounded-full bg-zinc-900 overflow-hidden">
+        <div className="relative flex-1 h-1.5 rounded-full bg-white/10 overflow-hidden">
           <div
             className={`h-full ${level.bar} transition-all duration-700`}
             style={{ width: `${score}%` }}
           />
         </div>
-        <span className={`font-mono text-lg font-bold ${level.text}`}>{score}</span>
+        <span className={`font-mono text-2xl font-semibold tabular-nums ${level.text}`}>{score}</span>
       </div>
     </div>
   );

@@ -1,8 +1,15 @@
 @import "tailwindcss";
 
+/* ------------------------------------------------------------------
+   GENESIS // Midnight theme
+   Deep navy canvas, frosted glass panels, one calm aqua accent.
+   Status colours (emerald / amber / orange / rose) are reserved for
+   meaning — live, warning, danger — never for decoration.
+   ------------------------------------------------------------------ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #060912;
+  --foreground: #e2e8f0;
 }
 
 @theme inline {
@@ -11,20 +18,72 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-tactical: var(--font-tactical);
+
+  --color-accent: #5eead4;
+  --color-accent-strong: #2dd4bf;
+  --color-surface: rgb(13 18 32 / 0.72);
+  --color-line: rgb(148 163 184 / 0.14);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  color-scheme: dark;
 }
 
 body {
-  background: var(--background);
+  background:
+    radial-gradient(1100px 600px at 12% -12%, rgb(45 212 191 / 0.1), transparent 60%),
+    radial-gradient(900px 520px at 100% 0%, rgb(99 102 241 / 0.12), transparent 62%),
+    radial-gradient(800px 600px at 50% 120%, rgb(14 165 233 / 0.07), transparent 60%),
+    var(--background);
+  background-attachment: fixed;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
 }
+
+::selection {
+  background: rgb(45 212 191 / 0.3);
+  color: #fff;
+}
+
+/* Frosted glass card used for every top-level section. */
+@utility panel {
+  border-radius: 1.25rem;
+  border: 1px solid var(--color-line);
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 0.04), rgb(255 255 255 / 0.01)),
+    var(--color-surface);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.05),
+    0 24px 48px -28px rgb(0 0 0 / 0.9);
+  backdrop-filter: blur(14px);
+}
+
+/* Quieter card nested inside a panel. */
+@utility panel-inset {
+  border-radius: 0.875rem;
+  border: 1px solid var(--color-line);
+  background: rgb(255 255 255 / 0.025);
+}
+
+/* Small monospace label that sits above headings. */
+@utility eyebrow {
+  font-family: var(--font-tactical);
+  font-size: 0.7rem;
+  line-height: 1rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgb(94 234 212 / 0.75);
+}
+
+/* Faint grid that fades out towards the edges. */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgb(148 163 184 / 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(148 163 184 / 0.07) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at 50% 0%, #000 30%, transparent 75%);
+}
+
 @keyframes scanLine {
   0% {
     transform: translateX(-100%);
@@ -43,18 +102,6 @@ body {
   animation: scanLine 3s linear infinite;
 }
 
-/* War room command-center effects */
-
-.crt-scanlines {
-  background-image: repeating-linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.04) 0px,
-    rgba(255, 255, 255, 0.04) 1px,
-    transparent 1px,
-    transparent 3px
-  );
-}
-
 @keyframes radarSweep {
   from {
     transform: rotate(0deg);
@@ -67,11 +114,11 @@ body {
 .radar-sweep {
   background: conic-gradient(
     from 0deg,
-    #22d3ee33 0deg,
-    transparent 60deg,
+    rgb(94 234 212 / 0.14) 0deg,
+    transparent 70deg,
     transparent 360deg
   );
-  animation: radarSweep 6s linear infinite;
+  animation: radarSweep 10s linear infinite;
 }
 
 @keyframes cursorBlink {
@@ -103,8 +150,54 @@ body {
   animation: tickerScroll 40s linear infinite;
 }
 
-/* Turns free, keyless OpenStreetMap tiles into a dark, neon-compatible
+@media (prefers-reduced-motion: reduce) {
+  .radar-sweep,
+  .ticker-track,
+  .scan-line,
+  .blink-cursor {
+    animation: none;
+  }
+}
+
+/* Turns free, keyless OpenStreetMap tiles into a dark, navy-tinted
    basemap so the Conflict Tracker never depends on a paid tile API. */
 .map-tiles-dark {
-  filter: invert(1) hue-rotate(180deg) brightness(0.85) contrast(0.9) saturate(0.6);
+  filter: invert(1) hue-rotate(190deg) brightness(0.8) contrast(0.9) saturate(0.45);
+}
+
+.leaflet-container {
+  background: #0b1020;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: #111827;
+  color: #e2e8f0;
+  border: 1px solid rgb(148 163 184 / 0.2);
+  box-shadow: 0 12px 30px -12px rgb(0 0 0 / 0.8);
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+  color: #94a3b8;
+}
+
+.leaflet-control-attribution {
+  background: rgb(6 9 18 / 0.75) !important;
+  color: #64748b;
+}
+
+.leaflet-control-attribution a {
+  color: #94a3b8;
+}
+
+.leaflet-bar a {
+  background: #111827;
+  color: #cbd5e1;
+  border-bottom-color: rgb(148 163 184 / 0.2);
+}
+
+.leaflet-bar a:hover {
+  background: #1e293b;
+  color: #fff;
 }

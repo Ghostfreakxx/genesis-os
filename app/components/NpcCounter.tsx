@@ -18,24 +18,22 @@ export default function GenesisStatus() {
     messages[Math.floor(Math.random() * messages.length)];
 
   return (
-    <div className="mt-5 border border-cyan-500 rounded-2xl p-5 bg-black">
+    <div className="panel-inset p-5 flex flex-col">
+      <p className="font-tactical text-xs uppercase tracking-[0.2em] text-slate-400">
+        Genesis Status
+      </p>
 
-      <h2 className="text-2xl font-bold text-cyan-300">
-        GENESIS STATUS
-      </h2>
-
-      <p className="text-zinc-400 mt-3 leading-7">
+      <p className="text-slate-200 mt-2 leading-7">
         {randomMessage}
       </p>
 
-      <div className="mt-5 border border-green-500 rounded-xl p-4 bg-[#050505]">
-
-        <p className="text-green-400 font-mono animate-pulse">
-          EXHAUSTED USERS CONNECTED: {onlineUsers}
-        </p>
-
-      </div>
-
+      <p className="mt-auto pt-4 font-tactical text-xs uppercase tracking-wider text-slate-500 flex items-center gap-2">
+        <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+        Exhausted users connected:
+        <span className="font-mono text-sm text-emerald-300 tabular-nums">
+          {onlineUsers.toLocaleString()}
+        </span>
+      </p>
     </div>
   );
 }

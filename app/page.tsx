@@ -64,69 +64,59 @@ export default function HomePage() {
     <>
       <WarRoomHud alertLevel={active.threat} callsign={callsign} />
 
-      <main className="min-h-screen bg-[#050505] text-white p-4 md:p-6 pb-14 overflow-hidden relative">
-        <div className="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#22d3ee33_1px,transparent_1px),linear-gradient(to_bottom,#22d3ee33_1px,transparent_1px)] bg-[size:45px_45px] animate-pulse"></div>
+      <main className="min-h-screen text-slate-100 p-4 md:p-8 pb-16 overflow-hidden relative">
+        <div className="absolute inset-0 bg-grid pointer-events-none"></div>
 
-        <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-[700px] w-[700px] rounded-full overflow-hidden opacity-30 pointer-events-none">
+        <div className="absolute -top-72 left-1/2 -translate-x-1/2 h-[760px] w-[760px] rounded-full overflow-hidden opacity-60 pointer-events-none">
           <div className="radar-sweep h-full w-full"></div>
         </div>
 
-        <div className="absolute inset-0 opacity-20 pointer-events-none crt-scanlines"></div>
-
         <div className="relative z-10 max-w-7xl mx-auto">
-          <HudFrame className="mb-8 border border-cyan-500/40 rounded-3xl p-6 bg-black/60 shadow-[0_0_30px_#0891b255] text-cyan-400">
-            <p className="font-tactical text-xs uppercase tracking-[0.3em] text-cyan-500/70">
+          <HudFrame className="panel mb-8 p-6 md:p-8 text-accent/50">
+            <p className="eyebrow">
               {"// Tactical Command Interface — Clearance Level 5"}
             </p>
 
-            <h1 className="text-5xl font-bold text-cyan-300 drop-shadow-[0_0_20px_#22d3ee] mt-2">
+            <h1 className="text-5xl md:text-6xl font-semibold tracking-tight mt-3 bg-gradient-to-r from-white via-slate-100 to-accent bg-clip-text text-transparent">
               GENESIS
-              <span className="blink-cursor text-cyan-400">_</span>
+              <span className="blink-cursor text-accent">_</span>
             </h1>
 
-            <p className="font-tactical text-sm uppercase tracking-[0.2em] text-green-400 mt-1">
+            <p className="font-tactical text-sm uppercase tracking-[0.2em] text-accent mt-2">
               Welcome, Resistance.
             </p>
 
-            <p className="text-zinc-400 mt-2">
+            <p className="text-slate-400 mt-3">
               Monitoring global signals.
             </p>
 
-            <p className="text-sm text-cyan-500 mt-1 flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-red-500 animate-ping"></span>
-              Genesis is monitoring {active.label}.
+            <p className="text-sm text-slate-300 mt-1 flex items-center gap-2">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75 animate-ping"></span>
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-rose-400"></span>
+              </span>
+              <span>Genesis is monitoring <span className="text-white font-medium">{active.label}</span>.</span>
             </p>
 
             <Link
               href="/tracker"
-              className="inline-block text-sm text-zinc-400 hover:text-cyan-300 underline mt-2 transition-colors"
+              className="inline-flex items-center gap-2 mt-4 rounded-full border border-line bg-white/[0.03] px-4 py-1.5 text-sm text-slate-300 hover:text-white hover:border-accent/50 hover:bg-accent/10 transition-colors"
             >
-              Global Conflict Tracker: Live World Map →
+              Global Conflict Tracker: Live World Map
+              <span aria-hidden className="text-accent">→</span>
             </Link>
 
-            <NpcCounter />
-
-            <TensionIndex threats={topics.map((topic) => topic.threat)} />
-
-            <div className="mt-5 h-1 bg-cyan-500 rounded-full shadow-[0_0_20px_#22d3ee] animate-pulse"></div>
-
-            <div className="relative mt-2 h-1 overflow-hidden rounded-full bg-zinc-900">
-              <div className="h-full w-1/2 bg-cyan-300 shadow-[0_0_20px_#22d3ee] animate-[scan_3s_linear_infinite]"></div>
+            <div className="grid md:grid-cols-2 gap-4 mt-6">
+              <NpcCounter />
+              <TensionIndex threats={topics.map((topic) => topic.threat)} />
             </div>
 
-            <style jsx>{`
-              @keyframes scan {
-                0% {
-                  transform: translateX(-120%);
-                }
-                100% {
-                  transform: translateX(220%);
-                }
-              }
-            `}</style>
+            <div className="relative mt-6 h-px overflow-hidden bg-line">
+              <div className="scan-line absolute inset-0 bg-[linear-gradient(90deg,transparent_30%,var(--color-accent)_50%,transparent_70%)]"></div>
+            </div>
           </HudFrame>
 
-          <HudFrame className="mb-8 text-green-500">
+          <HudFrame className="mb-8 text-accent/50">
             <CommandTerminal
               topics={topics}
               activeLabel={active.label}
@@ -137,28 +127,28 @@ export default function HomePage() {
             />
           </HudFrame>
 
-          <div className="grid md:grid-cols-3 gap-5">
-            <HudFrame className="border border-cyan-500 rounded-2xl p-5 bg-black shadow-[0_0_25px_#0891b244] hover:shadow-[0_0_40px_#22d3ee66] transition-all duration-500 text-cyan-500">
-              <p className="font-tactical text-xs uppercase tracking-[0.25em] text-cyan-500/70">
+          <div className="grid md:grid-cols-3 gap-6 items-start">
+            <HudFrame className="panel p-5 md:sticky md:top-6 text-accent/50">
+              <p className="eyebrow">
                 {"// Sigint Feed"}
               </p>
-              <h2 className="text-3xl font-bold text-cyan-300 mt-1 mb-5">
+              <h2 className="text-2xl font-semibold tracking-tight text-white mt-2 mb-5">
                 World Signal Feed
               </h2>
 
-              <div className="space-y-3">
+              <div className="space-y-2">
                 {topics.map((item) => (
                   <button
                     key={item.label}
                     onClick={() => setActive(item)}
-                    className={`w-full text-left border rounded-xl p-4 transition-all duration-300 hover:scale-[1.03] ${
+                    className={`w-full text-left rounded-xl border px-4 py-3 transition-all duration-200 ${
                       active.label === item.label
-                        ? "border-red-500 bg-red-500/10 shadow-[0_0_25px_#ef444455]"
-                        : "border-green-500 bg-[#0a0a0a] hover:shadow-[0_0_20px_#22c55e55]"
+                        ? "border-accent/40 bg-accent/10 text-white shadow-[inset_3px_0_0_var(--color-accent)]"
+                        : "border-line bg-white/[0.02] text-slate-300 hover:bg-white/[0.05] hover:text-white"
                     }`}
                   >
                     <div className="flex items-center justify-between gap-2">
-                      <p className="font-bold text-lg">
+                      <p className="font-medium">
                         {item.label}
                       </p>
                       <ThreatBadge level={item.threat} />
@@ -168,31 +158,31 @@ export default function HomePage() {
               </div>
             </HudFrame>
 
-            <HudFrame className="md:col-span-2 border border-cyan-500 rounded-2xl p-6 bg-black shadow-[0_0_25px_#0891b244] text-cyan-500">
-              <p className="font-tactical text-xs uppercase tracking-[0.25em] text-cyan-500/70">
+            <HudFrame className="panel md:col-span-2 p-6 md:p-8 text-accent/50">
+              <p className="eyebrow">
                 {"// Threat Assessment"}
               </p>
 
-              <div className="flex items-center justify-between gap-3 flex-wrap mt-1">
-                <h2 className="text-4xl font-bold text-cyan-300 drop-shadow-[0_0_15px_#22d3ee]">
+              <div className="flex items-center justify-between gap-3 flex-wrap mt-2">
+                <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-white">
                   {active.label}
                 </h2>
                 <ThreatBadge level={active.threat} />
               </div>
 
-              <p className="text-red-400 font-bold mt-3 flex items-center gap-2">
-                <span className="h-3 w-3 rounded-full bg-red-500 animate-pulse"></span>
-                Threat Level: {active.threat}
+              <p className="text-slate-400 mt-2 flex items-center gap-2 text-sm">
+                <span className="h-2 w-2 rounded-full bg-rose-400 animate-pulse"></span>
+                Threat Level: <span className="text-rose-300 font-medium">{active.threat}</span>
               </p>
 
-              <div className="mt-6 border border-red-500 rounded-xl p-5 bg-[#0a0a0a] shadow-[0_0_25px_#ef444433] hover:shadow-[0_0_40px_#ef444466] transition-all duration-500">
-                <p className="text-red-400 font-bold mb-3">
+              <div className="panel-inset mt-6 p-5 border-l-2 border-l-rose-400/60">
+                <p className="font-tactical text-[0.7rem] uppercase tracking-[0.25em] text-rose-300/80">
                   Brutal AI Read
                 </p>
 
                 <LiveNewsFeed topic={active.search} />
 
-                <p className="text-zinc-300 leading-7 mt-4">
+                <p className="text-slate-300 leading-7 mt-5 text-[15px]">
                   {active.critic}
                 </p>
 
@@ -204,22 +194,22 @@ export default function HomePage() {
                   active.search
                 )}`}
                 target="_blank"
-                className="inline-block mt-6 text-green-400 underline hover:text-cyan-300 transition-colors"
+                className="inline-flex items-center gap-1 mt-6 text-sm text-accent hover:text-white transition-colors"
               >
-                Open live news search →
+                Open live news search <span aria-hidden>→</span>
               </a>
 
-              <HudFrame className="mt-10 hover:scale-[1.01] transition-all duration-500 text-cyan-500">
+              <div className="mt-10">
                 <NewNEMap />
-              </HudFrame>
+              </div>
 
-              <HudFrame className="mt-10 hover:scale-[1.01] transition-all duration-500 text-yellow-500">
+              <div className="mt-10">
                 <MarketWatch />
-              </HudFrame>
+              </div>
 
-              <HudFrame className="mt-10 hover:scale-[1.01] transition-all duration-500 text-orange-500">
+              <div className="mt-10">
                 <IndiaMarketWatch />
-              </HudFrame>
+              </div>
             </HudFrame>
           </div>
         </div>

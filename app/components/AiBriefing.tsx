@@ -48,39 +48,39 @@ export default function AiBriefing({ topic }: { topic: string }) {
   }, [topic]);
 
   return (
-    <div className="mt-6 border border-purple-500 rounded-xl p-5 bg-purple-500/5">
+    <div className="mt-6 rounded-xl border border-indigo-400/25 bg-gradient-to-br from-indigo-500/10 to-transparent p-5">
       <div className="flex items-center justify-between gap-2 flex-wrap">
-        <p className="text-purple-300 font-bold flex items-center gap-2">
-          <span className="h-2 w-2 rounded-full bg-purple-400 animate-pulse" />
+        <p className="font-tactical text-xs uppercase tracking-[0.2em] text-indigo-200 flex items-center gap-2">
+          <span className="h-2 w-2 rounded-full bg-indigo-300 animate-pulse" />
           AI SITREP
         </p>
 
         {mode && (
-          <span className="text-[10px] font-tactical uppercase tracking-wider text-zinc-500">
+          <span className="text-[10px] font-tactical uppercase tracking-wider text-slate-500">
             {MODE_LABEL[mode]}
           </span>
         )}
       </div>
 
       {loading && (
-        <p className="text-zinc-400 mt-3 text-sm animate-pulse">
+        <p className="text-slate-400 mt-3 text-sm animate-pulse">
           Synthesizing briefing...
         </p>
       )}
 
       {!loading && briefing && (
-        <p className="text-zinc-200 mt-3 leading-7 text-sm">{briefing}</p>
+        <p className="text-slate-200 mt-3 leading-7 text-[15px]">{briefing}</p>
       )}
 
       {!loading && !briefing && mode === "offline" && (
-        <p className="text-zinc-500 mt-3 text-sm">
+        <p className="text-slate-500 mt-3 text-sm">
           AI briefing unavailable — set ANTHROPIC_API_KEY to enable live
           synthesis of the signal feed below.
         </p>
       )}
 
       {!loading && !briefing && mode === "error" && (
-        <p className="text-zinc-500 mt-3 text-sm">
+        <p className="text-slate-500 mt-3 text-sm">
           AI uplink failed. Showing raw signal feed only.
         </p>
       )}

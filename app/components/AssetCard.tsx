@@ -21,31 +21,31 @@ export default function AssetCard({
   const isUp = hasChange && changePercent >= 0;
 
   return (
-    <div className="border border-zinc-700 rounded-xl p-4 bg-[#090909] hover:border-cyan-400 hover:scale-[1.02] transition-all duration-300 flex flex-col">
+    <div className="panel-inset p-4 hover:border-accent/40 hover:bg-white/[0.04] hover:-translate-y-0.5 transition-all duration-200 flex flex-col">
       <div className="flex justify-between items-start gap-2">
         <div>
-          <h3 className="text-xl font-bold text-cyan-300 leading-tight">
+          <h3 className="text-base font-semibold text-white leading-tight">
             {name}
           </h3>
           {badge && (
-            <span className="inline-block mt-1 text-[10px] tracking-wider uppercase text-zinc-500 border border-zinc-700 rounded px-1.5 py-0.5">
+            <span className="inline-block mt-1 text-[10px] tracking-wider uppercase text-slate-400 border border-line rounded px-1.5 py-0.5">
               {badge}
             </span>
           )}
         </div>
 
-        <span className="text-yellow-300 font-bold font-mono text-sm shrink-0">
+        <span className="text-slate-400 font-mono text-xs font-medium shrink-0 rounded bg-white/5 px-1.5 py-0.5">
           {ticker}
         </span>
       </div>
 
-      <p className="text-white text-2xl font-mono mt-3">
+      <p className="text-white text-2xl font-mono tabular-nums tracking-tight mt-3">
         {priceLabel ?? "Loading..."}
       </p>
 
       <p
-        className={`mt-2 font-bold flex items-center gap-1 ${
-          !hasChange ? "text-zinc-400" : isUp ? "text-green-400" : "text-red-400"
+        className={`mt-2 text-sm font-medium flex items-center gap-1 tabular-nums ${
+          !hasChange ? "text-slate-500" : isUp ? "text-emerald-400" : "text-rose-400"
         }`}
       >
         {hasChange ? (
@@ -58,7 +58,7 @@ export default function AssetCard({
         )}
       </p>
 
-      {footer && <div className="mt-3 pt-3 border-t border-zinc-800">{footer}</div>}
+      {footer && <div className="mt-3 pt-3 border-t border-line">{footer}</div>}
     </div>
   );
 }

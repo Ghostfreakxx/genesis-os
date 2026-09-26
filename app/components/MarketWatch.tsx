@@ -37,22 +37,25 @@ export default function MarketWatch() {
   }, []);
 
   return (
-    <section className="border border-yellow-400 rounded-2xl p-6 bg-black shadow-[0_0_30px_#eab30855]">
+    <section className="panel p-6">
       <div className="flex justify-between items-center flex-wrap gap-2">
-        <h2 className="text-4xl font-bold text-yellow-300 animate-pulse">
-          Market Watch
-        </h2>
+        <div>
+          <p className="eyebrow">{"// Markets"}</p>
+          <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-white mt-1">
+            Market Watch
+          </h2>
+        </div>
 
         <div className="text-right">
           <p
-            className={`font-mono text-sm ${
-              error ? "text-red-400" : "text-green-400"
+            className={`font-tactical text-xs tracking-wider ${
+              error ? "text-rose-400" : "text-emerald-400"
             }`}
           >
             {error ? "● FEED ERROR" : "● LIVE CRYPTO SCAN"}
           </p>
           {lastUpdated && (
-            <p className="text-zinc-500 text-xs mt-0.5">
+            <p className="text-slate-500 text-xs mt-0.5">
               Updated {lastUpdated.toLocaleTimeString()}
             </p>
           )}
@@ -75,7 +78,7 @@ export default function MarketWatch() {
               priceLabel={priceLabel}
               changePercent={quote?.usd_24h_change ?? null}
               footer={
-                <p className="text-zinc-400 text-sm">
+                <p className="text-slate-400 text-sm">
                   Real-time market data feed.
                 </p>
               }
@@ -84,9 +87,9 @@ export default function MarketWatch() {
         })}
       </div>
 
-      <div className="mt-6 border border-red-500 rounded-xl p-4 bg-red-500/5">
-        <p className="text-red-400 font-bold">Trader Warning</p>
-        <p className="text-zinc-200 mt-2">
+      <div className="mt-6 panel-inset p-5 border-l-2 border-l-rose-400/60">
+        <p className="text-rose-300 font-semibold">Trader Warning</p>
+        <p className="text-slate-200 mt-2">
           Live price does not mean live wisdom. Do not chase candles.
         </p>
       </div>
