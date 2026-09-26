@@ -87,22 +87,25 @@ export default function IndiaMarketWatch() {
         : "● CONNECTING";
 
   return (
-    <section className="border border-orange-400 rounded-2xl p-6 bg-black shadow-[0_0_30px_#fb923c55]">
+    <section className="panel p-6">
       <div className="flex justify-between items-center flex-wrap gap-2">
-        <h2 className="text-4xl font-bold text-orange-300 animate-pulse">
-          India Market Watch
-        </h2>
+        <div>
+          <p className="eyebrow">{"// Markets"}</p>
+          <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-white mt-1">
+            India Market Watch
+          </h2>
+        </div>
 
         <div className="text-right">
           <p
-            className={`font-mono text-sm ${
-              error ? "text-red-400" : mode === "live" ? "text-green-400" : "text-yellow-400"
+            className={`font-tactical text-xs tracking-wider ${
+              error ? "text-rose-400" : mode === "live" ? "text-emerald-400" : "text-amber-300"
             }`}
           >
             {statusLabel}
           </p>
           {lastUpdated && (
-            <p className="text-zinc-500 text-xs mt-0.5">
+            <p className="text-slate-500 text-xs mt-0.5">
               Updated {lastUpdated.toLocaleTimeString()}
             </p>
           )}
@@ -127,10 +130,10 @@ export default function IndiaMarketWatch() {
               badge={asset.category === "index" ? "Index" : "Stock"}
               footer={
                 <details>
-                  <summary className="text-cyan-400 text-sm cursor-pointer select-none">
+                  <summary className="text-accent text-sm cursor-pointer hover:text-white transition-colors select-none">
                     How to invest
                   </summary>
-                  <p className="text-zinc-400 text-sm mt-2 leading-6">
+                  <p className="text-slate-400 text-sm mt-2 leading-6">
                     {HOW_TO_INVEST[asset.category]}
                   </p>
                 </details>
@@ -140,19 +143,19 @@ export default function IndiaMarketWatch() {
         })}
       </div>
 
-      <div className="mt-6 border border-green-500 rounded-xl p-4 bg-green-500/5">
-        <p className="text-green-400 font-bold">Investment Playbook</p>
+      <div className="mt-6 panel-inset p-5 border-l-2 border-l-emerald-400/60">
+        <p className="text-emerald-300 font-semibold">Investment Playbook</p>
 
         <div className="grid sm:grid-cols-2 gap-3 mt-3">
           {PLAYBOOK.map((item) => (
             <div key={item.title}>
-              <p className="text-zinc-100 font-semibold text-sm">{item.title}</p>
-              <p className="text-zinc-400 text-sm mt-1 leading-6">{item.detail}</p>
+              <p className="text-slate-100 font-semibold text-sm">{item.title}</p>
+              <p className="text-slate-400 text-sm mt-1 leading-6">{item.detail}</p>
             </div>
           ))}
         </div>
 
-        <p className="text-zinc-500 text-xs mt-4 border-t border-zinc-800 pt-3">
+        <p className="text-slate-500 text-xs mt-4 border-t border-line pt-3">
           General educational information only, not personalized investment
           advice. Markets carry risk, including loss of principal. Speak with
           a SEBI-registered financial advisor before investing.

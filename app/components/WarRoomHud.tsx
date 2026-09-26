@@ -20,10 +20,10 @@ export default function WarRoomHud({ alertLevel, callsign }: WarRoomHudProps) {
   const time = now.toUTCString().slice(17, 25);
 
   return (
-    <div className="relative z-20 border-b border-cyan-500/30 bg-black/80 backdrop-blur-sm">
-      <div className="max-w-7xl mx-auto px-4 md:px-6 py-2 flex items-center justify-between gap-4 flex-wrap font-tactical text-xs tracking-wider">
-        <div className="flex items-center gap-2 text-cyan-400">
-          <span className="h-2 w-2 rounded-full bg-green-400 animate-pulse" />
+    <div className="relative z-20 border-b border-line bg-[#060912]/70 backdrop-blur-md">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 py-2.5 flex items-center justify-between gap-4 flex-wrap font-tactical text-xs tracking-wider">
+        <div className="flex items-center gap-2 text-slate-300">
+          <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
           SECURE LINK ESTABLISHED
         </div>
 
@@ -34,9 +34,9 @@ export default function WarRoomHud({ alertLevel, callsign }: WarRoomHudProps) {
           </span>
         </div>
 
-        <div className="text-zinc-400">CALLSIGN: {callsign}</div>
+        <div className="text-slate-500">CALLSIGN: {callsign}</div>
 
-        <div className="text-zinc-400 tabular-nums">{time} UTC</div>
+        <div className="text-slate-500 tabular-nums">{time} UTC</div>
       </div>
     </div>
   );

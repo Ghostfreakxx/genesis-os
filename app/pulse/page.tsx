@@ -1,50 +1,60 @@
+import Link from "next/link";
+
 export default function PulsePage() {
   const signals = [
-    { region: "Northeast India", threat: "Moderate", color: "border-green-500", glow: "hover:shadow-green-500/40" },
-    { region: "India Myanmar Border", threat: "High", color: "border-red-500", glow: "hover:shadow-red-500/40" },
-    { region: "Taiwan Strait", threat: "Watch", color: "border-yellow-500", glow: "hover:shadow-yellow-500/40" },
-    { region: "Cybersecurity", threat: "Active", color: "border-cyan-500", glow: "hover:shadow-cyan-500/40" },
+    { region: "Northeast India", threat: "Moderate", color: "border-l-emerald-400/60", text: "text-emerald-300" },
+    { region: "India Myanmar Border", threat: "High", color: "border-l-rose-400/60", text: "text-rose-300" },
+    { region: "Taiwan Strait", threat: "Watch", color: "border-l-amber-300/60", text: "text-amber-200" },
+    { region: "Cybersecurity", threat: "Active", color: "border-l-accent/60", text: "text-accent" },
   ];
 
   return (
-    <main className="min-h-screen bg-black text-white p-6 overflow-hidden relative">
-      <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#22d3ee22_1px,transparent_1px),linear-gradient(to_bottom,#22d3ee22_1px,transparent_1px)] bg-[size:40px_40px] animate-pulse"></div>
+    <main className="min-h-screen text-slate-100 p-4 md:p-8 overflow-hidden relative">
+      <div className="absolute inset-0 bg-grid pointer-events-none"></div>
 
-      <div className="relative z-10">
-        <h1 className="text-5xl font-bold text-cyan-300 drop-shadow-[0_0_20px_#22d3ee] animate-pulse">
+      <div className="relative z-10 max-w-6xl mx-auto">
+        <p className="eyebrow">{"// Signal Overview"}</p>
+        <h1 className="text-5xl md:text-6xl font-semibold tracking-tight mt-3 bg-gradient-to-r from-white via-slate-100 to-accent bg-clip-text text-transparent">
           GENESIS PULSE
         </h1>
 
-        <p className="text-zinc-400 mt-4">
+        <p className="text-slate-400 mt-4 max-w-2xl leading-7">
           Monitoring global signals, regional instability, markets,
           cybersecurity, and strategic developments.
         </p>
 
-        <p className="text-cyan-400 mt-2 flex items-center gap-2">
-          <span className="h-3 w-3 rounded-full bg-red-500 animate-ping"></span>
-          Genesis is monitoring India Myanmar Border.
+        <p className="text-slate-300 text-sm mt-2 flex items-center gap-2">
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75 animate-ping"></span>
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-rose-400"></span>
+          </span>
+          <span>Genesis is monitoring <span className="text-white font-medium">India Myanmar Border</span>.</span>
         </p>
 
-        <div className="mt-6 h-1 bg-cyan-500 rounded-full shadow-[0_0_20px_#22d3ee] animate-pulse"></div>
+        <div className="mt-6 h-px bg-gradient-to-r from-accent/60 via-line to-transparent"></div>
 
         {/* STATUS */}
-        <section className="mt-8 border border-cyan-500 rounded-3xl p-6 shadow-[0_0_25px_#0891b255] hover:shadow-[0_0_45px_#22d3ee99] transition-all duration-500">
-          <h2 className="text-3xl font-bold text-cyan-300">
-            GENESIS STATUS
+        <section className="panel mt-8 p-6 md:p-8">
+          <p className="eyebrow">{"// Status"}</p>
+          <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-white mt-1">
+            Genesis Status
           </h2>
 
-          <p className="text-zinc-300 mt-4">
+          <p className="text-slate-300 mt-3">
             Busy during daylight. Operational at night.
           </p>
 
-          <div className="mt-6 border border-green-500 rounded-2xl p-4 text-green-400 font-mono text-xl shadow-[0_0_20px_#22c55e55] animate-pulse">
-            EXHAUSTED USERS CONNECTED: 5661
+          <div className="panel-inset mt-6 p-4 font-tactical text-sm uppercase tracking-wider text-slate-400 flex items-center gap-2">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            Exhausted users connected:
+            <span className="font-mono text-lg text-emerald-300 tabular-nums">5,661</span>
           </div>
         </section>
 
         {/* SIGNAL FEED */}
-        <section className="mt-8 border border-cyan-500 rounded-3xl p-6 shadow-[0_0_25px_#0891b255]">
-          <h2 className="text-4xl font-bold text-cyan-300 mb-6">
+        <section className="panel mt-8 p-6 md:p-8">
+          <p className="eyebrow">{"// Sigint Feed"}</p>
+          <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-white mt-1 mb-6">
             World Signal Feed
           </h2>
 
@@ -52,14 +62,14 @@ export default function PulsePage() {
             {signals.map((item) => (
               <div
                 key={item.region}
-                className={`border ${item.color} rounded-2xl p-4 hover:scale-[1.03] hover:shadow-2xl ${item.glow} transition-all duration-300`}
+                className={`panel-inset border-l-2 ${item.color} p-4 hover:bg-white/[0.04] transition-colors`}
               >
-                <h3 className="text-xl font-bold">
+                <h3 className="text-lg font-semibold text-white">
                   {item.region}
                 </h3>
 
-                <p className="text-zinc-400 mt-2">
-                  Threat Level: {item.threat}
+                <p className="text-slate-400 text-sm mt-1">
+                  Threat Level: <span className={item.text}>{item.threat}</span>
                 </p>
               </div>
             ))}
@@ -67,35 +77,36 @@ export default function PulsePage() {
         </section>
 
         {/* INDIA MYANMAR */}
-        <section className="mt-8 border border-red-500 rounded-3xl p-6 shadow-[0_0_25px_#ef444455] hover:shadow-[0_0_45px_#ef444499] transition-all duration-500">
-          <h2 className="text-4xl font-bold text-cyan-300">
+        <section className="panel mt-8 p-6 md:p-8">
+          <p className="eyebrow">{"// Hotspot"}</p>
+          <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-white mt-1">
             India Myanmar Border
           </h2>
 
-          <p className="text-red-400 mt-2 font-semibold flex items-center gap-2">
-            <span className="h-3 w-3 rounded-full bg-red-500 animate-pulse"></span>
-            Threat Level: High
+          <p className="text-slate-400 text-sm mt-2 flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-rose-400 animate-pulse"></span>
+            Threat Level: <span className="text-rose-300 font-medium">High</span>
           </p>
 
-          <div className="mt-6 space-y-4">
-            <div className="border border-cyan-500 rounded-2xl p-4 hover:scale-[1.02] transition-all duration-300">
-              <h3 className="font-bold">
+          <div className="mt-6 grid md:grid-cols-2 gap-4">
+            <div className="panel-inset p-4">
+              <h3 className="font-semibold text-white">
                 Regional Security Watch
               </h3>
 
-              <p className="text-zinc-400 mt-2">
+              <p className="text-slate-400 text-sm leading-6 mt-2">
                 Border security, migration flows,
                 smuggling activity, and geopolitical pressure
                 remain important strategic concerns.
               </p>
             </div>
 
-            <div className="border border-cyan-500 rounded-2xl p-4 hover:scale-[1.02] transition-all duration-300">
-              <h3 className="font-bold">
+            <div className="panel-inset p-4">
+              <h3 className="font-semibold text-white">
                 Cybersecurity Signal
               </h3>
 
-              <p className="text-zinc-400 mt-2">
+              <p className="text-slate-400 text-sm leading-6 mt-2">
                 Digital fraud, phishing, cybercrime,
                 and information warfare remain active
                 challenges throughout the region.
@@ -105,34 +116,35 @@ export default function PulsePage() {
         </section>
 
         {/* PROJECT NEW NE */}
-        <section className="mt-8 border border-cyan-500 rounded-3xl p-6 shadow-[0_0_25px_#0891b255]">
-          <h2 className="text-4xl font-bold text-cyan-300">
+        <section className="panel mt-8 p-6 md:p-8">
+          <p className="eyebrow">{"// Regional Focus"}</p>
+          <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-white mt-1">
             Project New NE
           </h2>
 
-          <p className="text-zinc-300 mt-4">
-            Northeast India is India's eastern gateway toward
+          <p className="text-slate-300 mt-3 leading-7">
+            Northeast India is India&apos;s eastern gateway toward
             Myanmar, Bangladesh, ASEAN trade routes,
             logistics corridors, and future connectivity.
           </p>
 
           <div className="grid md:grid-cols-2 gap-4 mt-6">
-            <div className="border border-green-500 rounded-2xl p-4 hover:scale-[1.03] hover:shadow-[0_0_25px_#22c55e88] transition-all duration-300">
-              <h3 className="text-xl font-bold text-green-400">
+            <div className="panel-inset border-l-2 border-l-emerald-400/60 p-4">
+              <h3 className="text-lg font-semibold text-emerald-300">
                 Mizoram
               </h3>
 
-              <p className="text-zinc-400 mt-2">
+              <p className="text-slate-400 text-sm mt-1">
                 Gateway toward Myanmar and the Kaladan Corridor.
               </p>
             </div>
 
-            <div className="border border-yellow-500 rounded-2xl p-4 hover:scale-[1.03] hover:shadow-[0_0_25px_#eab30888] transition-all duration-300">
-              <h3 className="text-xl font-bold text-yellow-400">
+            <div className="panel-inset border-l-2 border-l-amber-300/60 p-4">
+              <h3 className="text-lg font-semibold text-amber-200">
                 Manipur
               </h3>
 
-              <p className="text-zinc-400 mt-2">
+              <p className="text-slate-400 text-sm mt-1">
                 Strategic ASEAN land bridge potential.
               </p>
             </div>
@@ -140,40 +152,41 @@ export default function PulsePage() {
         </section>
 
         {/* MARKET WATCH */}
-        <section className="mt-8 border border-yellow-500 rounded-3xl p-6 shadow-[0_0_25px_#eab30855]">
-          <h2 className="text-4xl font-bold text-yellow-400 drop-shadow-[0_0_15px_#eab308]">
+        <section className="panel mt-8 p-6 md:p-8">
+          <p className="eyebrow">{"// Markets"}</p>
+          <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-white mt-1">
             Market Watch
           </h2>
 
           <div className="grid md:grid-cols-2 gap-4 mt-6">
-            <div className="border border-zinc-600 rounded-2xl p-4 hover:border-cyan-400 hover:scale-[1.03] transition-all duration-300">
-              <h3 className="text-cyan-300 text-xl font-bold">
+            <div className="panel-inset p-4 hover:border-accent/40 transition-colors">
+              <h3 className="text-white text-lg font-semibold">
                 Bitcoin
               </h3>
 
-              <p className="text-zinc-400 mt-2">
+              <p className="text-slate-400 text-sm mt-1">
                 High volatility global risk indicator.
               </p>
             </div>
 
-            <div className="border border-zinc-600 rounded-2xl p-4 hover:border-yellow-400 hover:scale-[1.03] transition-all duration-300">
-              <h3 className="text-cyan-300 text-xl font-bold">
+            <div className="panel-inset p-4 hover:border-accent/40 transition-colors">
+              <h3 className="text-white text-lg font-semibold">
                 Gold
               </h3>
 
-              <p className="text-zinc-400 mt-2">
+              <p className="text-slate-400 text-sm mt-1">
                 Traditional defensive asset.
               </p>
             </div>
           </div>
         </section>
 
-        <a
+        <Link
           href="/"
-          className="inline-block mt-8 text-green-400 underline hover:text-cyan-300 transition-colors"
+          className="inline-flex items-center gap-1 mt-8 text-sm text-accent hover:text-white transition-colors"
         >
-          Return to Genesis Dashboard
-        </a>
+          <span aria-hidden>←</span> Return to Genesis Dashboard
+        </Link>
       </div>
     </main>
   );

@@ -31,45 +31,47 @@ export default function LiveNewsFeed({ topic }: { topic: string }) {
   }, [topic]);
 
   return (
-    <div className="mt-6 border border-cyan-500 rounded-2xl p-5 bg-black">
-      <h2 className="text-3xl font-bold text-cyan-300">
-        Live Signal Feed
-      </h2>
+    <div className="mt-4">
+      <div className="flex items-baseline justify-between gap-3 flex-wrap">
+        <h2 className="text-xl font-semibold tracking-tight text-white">
+          Live Signal Feed
+        </h2>
 
-      <p className="text-zinc-400 mt-2">
-        Current scan: {topic}
-      </p>
+        <p className="font-tactical text-xs uppercase tracking-wider text-slate-500">
+          Scan: {topic}
+        </p>
+      </div>
 
       {loading && (
-        <p className="text-green-400 mt-4 animate-pulse">
+        <p className="text-accent/80 text-sm mt-4 animate-pulse">
           Scanning public sources...
         </p>
       )}
 
       {!loading && articles.length === 0 && (
-        <p className="text-red-400 mt-4">
+        <p className="text-amber-300/90 text-sm mt-4">
           No live articles loaded. System using fallback mode.
         </p>
       )}
 
-      <div className="mt-5 space-y-4">
+      <div className="mt-4 space-y-2">
         {articles.slice(0, 5).map((article, index) => (
           <a
             key={index}
             href={article.url}
             target="_blank"
-            className="block border border-zinc-700 rounded-xl p-4 hover:border-green-400 transition"
+            className="group block panel-inset p-4 hover:border-accent/40 hover:bg-white/[0.04] transition-colors"
           >
-            <p className="text-cyan-200 font-bold">
+            <p className="text-slate-100 font-medium leading-snug group-hover:text-white">
               {article.title}
             </p>
 
-            <p className="text-zinc-400 text-sm mt-2">
+            <p className="text-slate-400 text-sm mt-1.5 line-clamp-2">
               {article.description || "No description available."}
             </p>
 
-            <p className="text-green-400 text-xs mt-3">
-              Source: {article.source || "Public feed"}
+            <p className="font-tactical text-[11px] uppercase tracking-wider text-accent/70 mt-3">
+              {article.source || "Public feed"}
             </p>
           </a>
         ))}
