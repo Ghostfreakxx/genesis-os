@@ -13,7 +13,13 @@ const FLAVOR_EVENTS = [
   "ROUTINE TELEMETRY SYNC OK",
 ];
 
-export default function IncidentTicker({ activeLabel }: { activeLabel: string }) {
+interface IncidentTickerProps {
+  activeLabel: string;
+  /** Most recent keyword alerts, newest first; shown at the front of the feed. */
+  alertLines?: string[];
+}
+
+export default function IncidentTicker({ activeLabel, alertLines = [] }: IncidentTickerProps) {
   const [events, setEvents] = useState<string[]>([
     `GENESIS ONLINE — MONITORING ${activeLabel.toUpperCase()}`,
   ]);
@@ -37,7 +43,10 @@ export default function IncidentTicker({ activeLabel }: { activeLabel: string })
     return () => clearInterval(timer);
   }, []);
 
-  const feed = events.join("     //     ");
+  const feed = [
+    ...alertLines.slice(0, 3).map((line) => `⚠ ALERT: ${line.toUpperCase()}`),
+    ...events,
+  ].join("     //     ");
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-20 border-t border-line bg-[#060912]/80 backdrop-blur-md overflow-hidden py-2">

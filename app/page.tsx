@@ -3,7 +3,7 @@
 import Link from "next/link";
 import LiveNewsFeed from "./components/livenewsfeed";
 import NewNEMap from "./components/NewNEMap";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import MarketWatch from "./components/MarketWatch";
 import IndiaMarketWatch from "./components/IndiaMarketWatch";
 import NpcCounter from "./components/NpcCounter";
@@ -16,49 +16,23 @@ import IncidentTicker from "./components/IncidentTicker";
 import AiBriefing from "./components/AiBriefing";
 import { generateCallsign } from "./lib/callsign";
 import { computeTensionScore } from "./lib/threat-levels";
-
-const topics = [
-  {
-    label: "Northeast India",
-    threat: "Moderate",
-    critic: "Delhi ignores Northeast geopolitics until crisis hits the border.",
-    search: "Northeast India geopolitics",
-  },
-  {
-    label: "India Myanmar Border",
-    threat: "High",
-    critic: "India reacts slowly while instability spreads through the borderlands.",
-    search: "India Myanmar border",
-  },
-  {
-    label: "China Taiwan",
-    threat: "Extreme",
-    critic: "One Taiwan escalation can shake global semiconductors overnight.",
-    search: "China Taiwan conflict",
-  },
-  {
-    label: "Cybersecurity",
-    threat: "Critical",
-    critic: "Most people still use weak passwords while living fully online.",
-    search: "Cybersecurity attacks",
-  },
-  {
-    label: "Global Conflict",
-    threat: "Severe",
-    critic: "Modern wars are now economic, cyber, media, and drone warfare combined.",
-    search: "Global conflict news",
-  },
-];
+import { useWatchlist } from "./lib/use-watchlist";
+import SectorManager from "./components/SectorManager";
+import KeywordWatch from "./components/KeywordWatch";
+import type { FeedMatch } from "./components/livenewsfeed";
 
 export default function HomePage() {
-  const [active, setActive] = useState(topics[1]);
+  const watch = useWatchlist();
+  const { sectors, active, setActiveLabel, recordAlerts } = watch;
+  const topics = sectors;
   const [callsign] = useState(generateCallsign);
   const tensionScore = computeTensionScore(topics.map((topic) => topic.threat));
 
-  function selectTopicByLabel(label: string) {
-    const match = topics.find((topic) => topic.label === label);
-    if (match) setActive(match);
-  }
+  const handleMatches = useCallback(
+    (matches: FeedMatch[]) =>
+      recordAlerts(matches.map((match) => ({ ...match, sector: active.label }))),
+    [recordAlerts, active.label]
+  );
 
   return (
     <>
@@ -118,12 +92,18 @@ export default function HomePage() {
 
           <HudFrame className="mb-8 text-accent/50">
             <CommandTerminal
-              topics={topics}
-              activeLabel={active.label}
-              threatLevel={active.threat}
+              sectors={sectors}
+              active={active}
               tensionScore={tensionScore}
               callsign={callsign}
-              onSelectTopic={selectTopicByLabel}
+              onSelectTopic={setActiveLabel}
+              onAddSector={watch.addSector}
+              onRemoveSector={watch.removeSector}
+              keywords={watch.keywords}
+              onAddKeyword={watch.addKeyword}
+              onRemoveKeyword={watch.removeKeyword}
+              alerts={watch.alerts}
+              onClearAlerts={watch.clearAlerts}
             />
           </HudFrame>
 
@@ -136,26 +116,52 @@ export default function HomePage() {
                 World Signal Feed
               </h2>
 
-              <div className="space-y-2">
+              <div className="space-y-2 max-h-[60vh] overflow-y-auto pr-1">
                 {topics.map((item) => (
-                  <button
-                    key={item.label}
-                    onClick={() => setActive(item)}
-                    className={`w-full text-left rounded-xl border px-4 py-3 transition-all duration-200 ${
-                      active.label === item.label
-                        ? "border-accent/40 bg-accent/10 text-white shadow-[inset_3px_0_0_var(--color-accent)]"
-                        : "border-line bg-white/[0.02] text-slate-300 hover:bg-white/[0.05] hover:text-white"
-                    }`}
-                  >
-                    <div className="flex items-center justify-between gap-2">
-                      <p className="font-medium">
-                        {item.label}
-                      </p>
-                      <ThreatBadge level={item.threat} />
-                    </div>
-                  </button>
+                  <div key={item.label} className="relative group/sector">
+                    <button
+                      onClick={() => setActiveLabel(item.label)}
+                      className={`w-full text-left rounded-xl border px-4 py-3 transition-all duration-200 ${
+                        active.label === item.label
+                          ? "border-accent/40 bg-accent/10 text-white shadow-[inset_3px_0_0_var(--color-accent)]"
+                          : "border-line bg-white/[0.02] text-slate-300 hover:bg-white/[0.05] hover:text-white"
+                      }`}
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <p className="font-medium truncate">
+                          {item.label}
+                          {item.custom && (
+                            <span className="ml-2 font-tactical text-[10px] uppercase tracking-wider text-slate-500">
+                              custom
+                            </span>
+                          )}
+                        </p>
+                        <ThreatBadge level={item.threat} />
+                      </div>
+                    </button>
+                    {item.custom && (
+                      <button
+                        type="button"
+                        onClick={() => watch.removeSector(item.label)}
+                        aria-label={`Remove ${item.label}`}
+                        className="absolute -top-1.5 -right-1.5 h-5 w-5 rounded-full border border-line bg-slate-900 text-xs leading-none text-slate-400 hover:text-white hover:border-rose-400/60 opacity-100 md:opacity-0 md:group-hover/sector:opacity-100 focus:opacity-100 transition-opacity"
+                      >
+                        ×
+                      </button>
+                    )}
+                  </div>
                 ))}
               </div>
+
+              <SectorManager onAdd={watch.addSector} />
+
+              <KeywordWatch
+                keywords={watch.keywords}
+                alerts={watch.alerts}
+                onAdd={watch.addKeyword}
+                onRemove={watch.removeKeyword}
+                onClearAlerts={watch.clearAlerts}
+              />
             </HudFrame>
 
             <HudFrame className="panel md:col-span-2 p-6 md:p-8 text-accent/50">
@@ -180,7 +186,11 @@ export default function HomePage() {
                   Brutal AI Read
                 </p>
 
-                <LiveNewsFeed topic={active.search} />
+                <LiveNewsFeed
+                  topic={active.search}
+                  keywords={watch.keywords}
+                  onMatches={handleMatches}
+                />
 
                 <p className="text-slate-300 leading-7 mt-5 text-[15px]">
                   {active.critic}
@@ -194,6 +204,7 @@ export default function HomePage() {
                   active.search
                 )}`}
                 target="_blank"
+                rel="noreferrer"
                 className="inline-flex items-center gap-1 mt-6 text-sm text-accent hover:text-white transition-colors"
               >
                 Open live news search <span aria-hidden>→</span>
@@ -215,7 +226,10 @@ export default function HomePage() {
         </div>
       </main>
 
-      <IncidentTicker activeLabel={active.label} />
+      <IncidentTicker
+        activeLabel={active.label}
+        alertLines={watch.alerts.map((alert) => `${alert.keyword} — ${alert.title}`)}
+      />
     </>
   );
 }
